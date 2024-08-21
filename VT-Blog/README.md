@@ -16,3 +16,13 @@ Currently, two official plugins are available:
 - npm i prop-types : check type
 - npm i node-sass
 - npm i axios
+
+-FIREBASE:
+
+. go Rules => allow read, write: if request.auth != null; bắt buộc đăng nhập mới thêm vào db được
+
+- Routes
+
+- auth context : để lưu trữ thông tin user
+
+- viet signup (ui)

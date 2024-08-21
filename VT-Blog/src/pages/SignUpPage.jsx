@@ -1,8 +1,14 @@
-import React from "react";
+import React, { useState } from "react";
 import styled from "styled-components";
 import Label from "@component/label/Label";
 import { useForm } from "react-hook-form";
-import Input from "../component/input/Input";
+import Input from "@component/input/Input";
+import IconEye from "@component/icon/IconEye";
+import Field from "@component/field/Field";
+import { IconEyeClose } from "@component/icon";
+import Button from "@component/button/Button";
+import Loading from "@component/loading/Loading";
+
 const SignUpPageStyle = styled.div`
   min-height: 100vh;
   padding: 40px;
@@ -20,12 +26,12 @@ const SignUpPageStyle = styled.div`
     max-width: 600px;
     margin: 0 auto;
   }
-  .field {
+  /* .field {
     display: flex;
     flex-direction: column;
     align-items: flex-start;
     row-gap: 20px;
-  }
+  } */
   /* .label {
     color: ${(props) => props.theme.grayDark};
     font-weight: 600;
@@ -54,14 +60,25 @@ const SignUpPageStyle = styled.div`
 `;
 
 const SignUpPage = () => {
+  const [togglePassword, setTogglePassword] = useState(false);
+
   const {
     control,
     handleSubmit,
     formState: { errors, isValid, isSubmitting },
     watch,
-  } = useForm({});
+    reset,
+  } = useForm({
+    mode: "onChange",
+  });
   const handleSignUp = (values) => {
     console.log(values);
+    if (!isValid) return;
+    return new Promise((resolve) => {
+      setTimeout(() => {
+        resolve();
+      }, 5000);
+    });
   };
   return (
     <SignUpPageStyle>
@@ -69,7 +86,7 @@ const SignUpPage = () => {
         <img srcSet="/logo.png 2x" alt="vt-blog" className="logo" />
         <h1 className="heading">VT Blogging</h1>
         <form onSubmit={handleSubmit(handleSignUp)}>
-          <div className="field">
+          <Field>
             <Label htmlFor="fullname">Fullname</Label>
             <Input
               // id="fullname"
@@ -78,8 +95,50 @@ const SignUpPage = () => {
               // className="input"
               placeholder="Enter your fullname"
               control={control}
-            />
-          </div>
+            ></Input>
+          </Field>
+          <Field>
+            <Label htmlFor="email">Email</Label>
+            <Input
+              type="email"
+              name="email"
+              placeholder="Enter your Email"
+              control={control}
+            ></Input>
+          </Field>
+          <Field>
+            <Label htmlFor="password">Password</Label>
+            <Input
+              type={togglePassword === false ? "password" : "text"}
+              name="password"
+              placeholder="Enter your password"
+              control={control}
+            >
+              {!togglePassword ? (
+                <IconEye
+                  className="icon-eye"
+                  onClick={() => {
+                    setTogglePassword(!togglePassword);
+                  }}
+                ></IconEye>
+              ) : (
+                <IconEyeClose
+                  className="icon-eye"
+                  onClick={() => {
+                    setTogglePassword(!togglePassword);
+                  }}
+                ></IconEyeClose>
+              )}
+            </Input>
+          </Field>
+          <Button
+            type="submit"
+            style={{ maxWidth: 300, margin: "0 auto" }}
+            isLoading={isSubmitting}
+            disabled={isSubmitting}
+          >
+            Sign Up
+          </Button>
         </form>
       </div>
     </SignUpPageStyle>

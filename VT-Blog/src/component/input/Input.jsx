@@ -1,7 +1,6 @@
-import React from "react";
+import React, { Children } from "react";
 import styled from "styled-components";
 import { useController } from "react-hook-form";
-import IconEye from "../icon/IconEye";
 
 const InputStyles = styled.div`
   position: relative;
@@ -37,10 +36,10 @@ const InputStyles = styled.div`
 
 const Input = ({
   name,
-
-  hasIcon = false,
+  children,
   type = "text",
   control,
+  hasIcon = false,
   ...props
 }) => {
   const { field } = useController({
@@ -50,9 +49,9 @@ const Input = ({
   });
 
   return (
-    <InputStyles hasIcon={hasIcon}>
+    <InputStyles $hasIcon={children ? true : false}>
       <input type={type} {...field} {...props} id={name} />
-      {hasIcon ? <IconEye className="icon-eye"></IconEye> : null}
+      {children}
     </InputStyles>
   );
 };

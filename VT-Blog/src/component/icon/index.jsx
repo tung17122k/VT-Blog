@@ -1,2 +1,3 @@
 import IconEye from "./IconEye";
-export { IconEye };
+import IconEyeClose from "./IconEyeClose";
+export { IconEye, IconEyeClose };

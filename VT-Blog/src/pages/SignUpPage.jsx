@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import styled from "styled-components";
 import Label from "@component/label/Label";
 import { useForm } from "react-hook-form";
@@ -8,6 +8,10 @@ import Field from "@component/field/Field";
 import { IconEyeClose } from "@component/icon";
 import Button from "@component/button/Button";
 import Loading from "@component/loading/Loading";
+import * as yup from "yup";
+import { yupResolver } from "@hookform/resolvers/yup";
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 const SignUpPageStyle = styled.div`
   min-height: 100vh;
@@ -25,6 +29,9 @@ const SignUpPageStyle = styled.div`
   form {
     max-width: 600px;
     margin: 0 auto;
+  }
+  .errors {
+    color: red;
   }
   /* .field {
     display: flex;
@@ -58,28 +65,51 @@ const SignUpPageStyle = styled.div`
     color: #84878b;
   } */
 `;
-
+const schema = yup
+  .object({
+    fullname: yup.string().required("Please enter your fullname"),
+    email: yup.string().email("Invalid email").required("Email is required"),
+    password: yup
+      .string()
+      .min(8, "Your password must be at least 8 character or greater")
+      .required("Password is required"),
+  })
+  .required();
 const SignUpPage = () => {
   const [togglePassword, setTogglePassword] = useState(false);
 
   const {
     control,
+    register,
     handleSubmit,
     formState: { errors, isValid, isSubmitting },
     watch,
     reset,
   } = useForm({
     mode: "onChange",
+    resolver: yupResolver(schema),
   });
   const handleSignUp = (values) => {
     console.log(values);
+
     if (!isValid) return;
+
     return new Promise((resolve) => {
       setTimeout(() => {
         resolve();
-      }, 5000);
+      }, 3000);
     });
   };
+  // console.log(errors);
+
+  useEffect(() => {
+    // const arrErrors = errors;
+    toast.error(errors?.fullname?.message, { pauseOnHover: false });
+    toast.error(errors?.email?.message, { pauseOnHover: false });
+    toast.error(errors?.password?.message, { pauseOnHover: false });
+    // console.log("🚀 ~ useEffect ~ arrErrors:", arrErrors);
+  }, [errors]);
+
   return (
     <SignUpPageStyle>
       <div className="container">
@@ -96,6 +126,9 @@ const SignUpPage = () => {
               placeholder="Enter your fullname"
               control={control}
             ></Input>
+            {errors?.fullname?.message && (
+              <p className="errors">{errors.fullname.message}</p>
+            )}
           </Field>
           <Field>
             <Label htmlFor="email">Email</Label>
@@ -105,6 +138,9 @@ const SignUpPage = () => {
               placeholder="Enter your Email"
               control={control}
             ></Input>
+            {errors?.email?.message && (
+              <p className="errors">{errors.email.message}</p>
+            )}
           </Field>
           <Field>
             <Label htmlFor="password">Password</Label>
@@ -130,6 +166,9 @@ const SignUpPage = () => {
                 ></IconEyeClose>
               )}
             </Input>
+            {errors?.password?.message && (
+              <p className="errors">{errors.password.message}</p>
+            )}
           </Field>
           <Button
             type="submit"

@@ -6,30 +6,19 @@ import Input from "@component/input/Input";
 import IconEye from "@component/icon/IconEye";
 import Field from "@component/field/Field";
 import { IconEyeClose } from "@component/icon";
-import Button from "@component/button/Button";
+import Button from "../component/button/Button";
 import Loading from "@component/loading/Loading";
 import * as yup from "yup";
 import { yupResolver } from "@hookform/resolvers/yup";
-import { ToastContainer, toast } from "react-toastify";
+import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import { createUserWithEmailAndPassword, updateProfile } from "firebase/auth";
+import { auth, db } from "../firebase/firebaseConfig";
+import { NavLink, useNavigate } from "react-router-dom";
+import { addDoc, collection } from "firebase/firestore";
+import AuthenticationPage from "./AuthenticationPage";
 
 const SignUpPageStyle = styled.div`
-  min-height: 100vh;
-  padding: 40px;
-  .logo {
-    margin: 0 auto 20px;
-  }
-  .heading {
-    text-align: center;
-    color: ${(props) => props.theme.primary};
-    font-weight: bold;
-    font-size: 40px;
-    margin-bottom: 60px;
-  }
-  form {
-    max-width: 600px;
-    margin: 0 auto;
-  }
   .errors {
     color: red;
   }
@@ -75,6 +64,7 @@ const schema = yup
       .required("Password is required"),
   })
   .required();
+
 const SignUpPage = () => {
   const [togglePassword, setTogglePassword] = useState(false);
 
@@ -89,16 +79,33 @@ const SignUpPage = () => {
     mode: "onChange",
     resolver: yupResolver(schema),
   });
-  const handleSignUp = (values) => {
+  const navigate = useNavigate();
+  const handleSignUp = async (values) => {
     console.log(values);
 
     if (!isValid) return;
 
-    return new Promise((resolve) => {
-      setTimeout(() => {
-        resolve();
-      }, 3000);
+    //createUserWithEmailAndPassword
+
+    const user = await createUserWithEmailAndPassword(
+      auth,
+      values.email,
+      values.password
+    );
+    await updateProfile(auth.currentUser, { displayName: values.fullname });
+    const colRef = collection(db, "users");
+    await addDoc(colRef, {
+      fullname: values.fullname,
+      email: values.email,
+      password: values.password,
     });
+    toast.success("Create user successfully", { pauseOnHover: false });
+    navigate("/");
+    // return new Promise((resolve) => {
+    //   setTimeout(() => {
+    //     resolve();
+    //   }, 3000);
+    // });
   };
   // console.log(errors);
 
@@ -110,77 +117,85 @@ const SignUpPage = () => {
     // console.log("🚀 ~ useEffect ~ arrErrors:", arrErrors);
   }, [errors]);
 
+  useEffect(() => {
+    document.title = "Register Page";
+  }, []);
   return (
-    <SignUpPageStyle>
-      <div className="container">
-        <img srcSet="/logo.png 2x" alt="vt-blog" className="logo" />
-        <h1 className="heading">VT Blogging</h1>
-        <form onSubmit={handleSubmit(handleSignUp)}>
-          <Field>
-            <Label htmlFor="fullname">Fullname</Label>
-            <Input
-              // id="fullname"
-              type="text"
-              name="fullname"
-              // className="input"
-              placeholder="Enter your fullname"
-              control={control}
-            ></Input>
-            {errors?.fullname?.message && (
-              <p className="errors">{errors.fullname.message}</p>
-            )}
-          </Field>
-          <Field>
-            <Label htmlFor="email">Email</Label>
-            <Input
-              type="email"
-              name="email"
-              placeholder="Enter your Email"
-              control={control}
-            ></Input>
-            {errors?.email?.message && (
-              <p className="errors">{errors.email.message}</p>
-            )}
-          </Field>
-          <Field>
-            <Label htmlFor="password">Password</Label>
-            <Input
-              type={togglePassword === false ? "password" : "text"}
-              name="password"
-              placeholder="Enter your password"
-              control={control}
-            >
-              {!togglePassword ? (
-                <IconEye
-                  className="icon-eye"
-                  onClick={() => {
-                    setTogglePassword(!togglePassword);
-                  }}
-                ></IconEye>
-              ) : (
-                <IconEyeClose
-                  className="icon-eye"
-                  onClick={() => {
-                    setTogglePassword(!togglePassword);
-                  }}
-                ></IconEyeClose>
-              )}
-            </Input>
-            {errors?.password?.message && (
-              <p className="errors">{errors.password.message}</p>
-            )}
-          </Field>
-          <Button
-            type="submit"
-            style={{ maxWidth: 300, margin: "0 auto" }}
-            isLoading={isSubmitting}
-            disabled={isSubmitting}
+    <AuthenticationPage>
+      <form onSubmit={handleSubmit(handleSignUp)}>
+        <Field>
+          <Label htmlFor="fullname">Fullname</Label>
+          <Input
+            // id="fullname"
+            type="text"
+            name="fullname"
+            // className="input"
+            placeholder="Enter your fullname"
+            control={control}
+          ></Input>
+          {errors?.fullname?.message && (
+            <p className="text-red-500">{errors.fullname.message}</p>
+          )}
+        </Field>
+        <Field>
+          <Label htmlFor="email">Email</Label>
+          <Input
+            type="email"
+            name="email"
+            placeholder="Enter your Email"
+            control={control}
+          ></Input>
+          {errors?.email?.message && (
+            <p className="text-red-500">{errors.email.message}</p>
+          )}
+        </Field>
+        <Field>
+          <Label htmlFor="password">Password</Label>
+          <Input
+            type={togglePassword === false ? "password" : "text"}
+            name="password"
+            placeholder="Enter your password"
+            control={control}
           >
-            Sign Up
-          </Button>
-        </form>
-      </div>
-    </SignUpPageStyle>
+            {!togglePassword ? (
+              <IconEye
+                className="icon-eye"
+                onClick={() => {
+                  setTogglePassword(!togglePassword);
+                }}
+              ></IconEye>
+            ) : (
+              <IconEyeClose
+                className="icon-eye"
+                onClick={() => {
+                  setTogglePassword(!togglePassword);
+                }}
+              ></IconEyeClose>
+            )}
+          </Input>
+          {errors?.password?.message && (
+            <p className="text-red-500">{errors.password.message}</p>
+          )}
+        </Field>
+        <div className="mb-[20px]">
+          You already have an account?
+          <NavLink
+            to={"/sign-in"}
+            className="inline-block ml-1 font-medium underline text-violet-700"
+          >
+            Login
+          </NavLink>
+        </div>
+        <Button
+          type="submit"
+          style={{ maxWidth: 300, margin: "0 auto" }}
+          isLoading={isSubmitting}
+          disabled={isSubmitting}
+        >
+          Sign Up
+        </Button>
+      </form>
+    </AuthenticationPage>
   );
 };
 

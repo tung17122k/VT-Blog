@@ -25,4 +25,8 @@ Currently, two official plugins are available:
 
 - auth context : để lưu trữ thông tin user
 
-- viet signup (ui) => useForm lay ra values => loading => validation
+- viet signup (ui) => useForm lay ra values => loading => validation => authentication => propstype
+
+- viet signin_page
+
+-- End day 1

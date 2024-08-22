@@ -2,7 +2,12 @@
 export default {
   content: ["./index.html", "./src/**/*.{js,ts,jsx,tsx}"],
   theme: {
-    extend: {},
+    extend: {
+      colors: {
+        primary: "#C471FD",
+        secondary: "#FACBA8",
+      },
+    },
     theme: {
       fontWeight: {
         thin: "100",

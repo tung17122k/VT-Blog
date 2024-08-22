@@ -21,7 +21,6 @@ const ButtonStyles = styled.button`
   border-radius: 8px;
   font-weight: 600;
   font-size: 18px;
-  width: 100%;
   &:disabled {
     opacity: 0.5;
     pointer-events: none;

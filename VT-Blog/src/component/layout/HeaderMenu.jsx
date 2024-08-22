@@ -138,6 +138,7 @@ const HeaderMenu = () => {
               height="56px"
               className="header-button"
               to="/sign-in"
+              kind
             >
               Sign Up
             </Button>

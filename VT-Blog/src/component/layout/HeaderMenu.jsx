@@ -2,6 +2,7 @@ import React from "react";
 import styled from "styled-components";
 import Button from "../button/Button";
 import { NavLink } from "react-router-dom";
+import { useAuth } from "@/context/authContext";
 const menuLink = [
   {
     url: "/",
@@ -46,6 +47,7 @@ const HeaderMenuStyles = styled.header`
     display: flex;
     align-items: center;
     position: relative;
+    margin-right: 20px;
   }
   .search-input {
     flex: 1;
@@ -60,12 +62,19 @@ const HeaderMenuStyles = styled.header`
     transform: translateY(-50%);
     right: 25px;
   }
-  .header-button {
-    margin-left: 20px;
-  }
 `;
 
+function getLastName(name) {
+  if (!name) return "";
+  const length = name.split(" ").length;
+  // console.log(length);
+  // console.log(name.split(" ")[length - 1]);
+  return name.split(" ")[length - 1];
+}
 const HeaderMenu = () => {
+  const { userInfo } = useAuth();
+  // console.log("🚀 ~ HeaderMenu ~ userInfo:", userInfo);
+
   return (
     <HeaderMenuStyles>
       <div className="container">
@@ -123,9 +132,23 @@ const HeaderMenu = () => {
               </svg>
             </span>
           </div>
-          <Button type="button" height="56px" className="header-button">
-            Sign Up
-          </Button>
+          {!userInfo ? (
+            <Button
+              type="button"
+              height="56px"
+              className="header-button"
+              to="/sign-in"
+            >
+              Sign Up
+            </Button>
+          ) : (
+            <div className="header-auth">
+              <span>Welcome back, </span>
+              <strong className="text-primary">
+                {getLastName(userInfo?.displayName)}
+              </strong>
+            </div>
+          )}
         </div>
       </div>
     </HeaderMenuStyles>

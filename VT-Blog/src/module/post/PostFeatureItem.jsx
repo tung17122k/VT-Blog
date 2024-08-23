@@ -1,6 +1,7 @@
 import React from "react";
 import styled from "styled-components";
 import PostCategory from "./PostCategory";
+import PostTitle from "./PostTitle";
 
 const PostFeatureItemStyles = styled.div`
   width: 100%;
@@ -64,10 +65,6 @@ const PostFeatureItemStyles = styled.div`
     background-color: currentColor;
   }
   .post-title {
-    font-weight: bold;
-    line-height: 1.5;
-    display: block;
-    font-size: 22px;
     color: white;
   }
 `;
@@ -90,7 +87,9 @@ const PostFeatureItem = () => {
             <span className="post-author">Kun Nguyen</span>
           </div>
         </div>
-        <div className="post-title">Setup khu vực làm việc </div>
+        <PostTitle className="post-title" size="medium">
+          Setup khu vực làm việc
+        </PostTitle>
       </div>
     </PostFeatureItemStyles>
   );

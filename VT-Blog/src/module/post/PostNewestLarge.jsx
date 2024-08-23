@@ -1,6 +1,7 @@
 import React from "react";
 import styled from "styled-components";
 import PostCategory from "./PostCategory";
+import PostTitle from "./PostTitle";
 
 const PostNewestLargeStyles = styled.div`
   .post-image {
@@ -34,10 +35,10 @@ const PostNewestLargeStyles = styled.div`
     background-color: #6b6b6b;
   }
   .post-title {
-    font-weight: bold;
+    /* font-weight: bold;
     line-height: 1.5;
     display: block;
-    font-size: 22px;
+    font-size: 22px; */
     margin-bottom: 10px;
   }
 `;
@@ -52,7 +53,9 @@ const PostNewestLarge = () => {
         />
       </div>
       <PostCategory className="post-category">Kiến thức</PostCategory>
-      <h3 className="post-title">Setup khu vực làm việc</h3>
+      <PostTitle className="post-title" size="medium">
+        Setup khu vực làm việc
+      </PostTitle>
       <div className="post-info">
         <span className="post-date">24 Aug</span>
         <span className="post-dot"></span>

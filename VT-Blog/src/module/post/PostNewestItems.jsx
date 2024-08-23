@@ -1,6 +1,7 @@
 import React from "react";
 import styled from "styled-components";
 import PostCategory from "./PostCategory";
+import PostTitle from "./PostTitle";
 
 const PostNewestItemsStyles = styled.div`
   display: flex;
@@ -46,10 +47,10 @@ const PostNewestItemsStyles = styled.div`
     background-color: #6b6b6b;
   }
   .post-title {
-    font-weight: bold;
+    /* font-weight: bold;
     line-height: 1.5;
     display: block;
-    font-size: 16px;
+    font-size: 16px; */
     margin-bottom: 8px;
   }
 `;
@@ -66,7 +67,7 @@ const PostNewestItems = () => {
         <PostCategory className="post-category" type="secondary">
           Kiến thức
         </PostCategory>
-        <h3 className="post-title">Setup khu vực làm việc</h3>
+        <PostTitle className="post-title">Setup khu vực làm việc</PostTitle>
         <div className="post-info">
           <span className="post-date">24 Aug</span>
           <span className="post-dot"></span>

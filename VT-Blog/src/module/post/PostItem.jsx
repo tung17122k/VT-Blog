@@ -1,6 +1,7 @@
 import React from "react";
 import styled from "styled-components";
 import PostCategory from "./PostCategory";
+import PostTitle from "./PostTitle";
 
 const PostItemStyles = styled.div`
   display: flex;
@@ -19,13 +20,6 @@ const PostItemStyles = styled.div`
     }
   }
   .post-category {
-    /* display: inline-block;
-    padding: 8px;
-    border-radius: 8px;
-    color: #6b6b6b;
-    font-size: 14px;
-    font-weight: 600;
-    background-color: #f3edff; */
     margin-bottom: 10px;
   }
   .post-info {
@@ -47,10 +41,6 @@ const PostItemStyles = styled.div`
     border-radius: 100rem;
   }
   .post-title {
-    font-weight: bold;
-    line-height: 1.5;
-    display: block;
-    font-size: 18px;
     margin-bottom: 8px;
   }
 `;
@@ -64,7 +54,9 @@ const PostItem = () => {
         />
       </div>
       <PostCategory className="post-category">Kiến thức</PostCategory>
-      <h3 className="post-title">Setup khu vực làm việc</h3>
+      <PostTitle className="post-title" type="medium">
+        Setup khu vực làm việc
+      </PostTitle>
       <div className="post-info">
         <span className="post-date">24 Aug</span>
         <span className="post-dot"></span>

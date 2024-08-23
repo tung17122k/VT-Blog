@@ -1,19 +1,18 @@
 import React, { useEffect, useState } from "react";
 import { useAuth } from "../context/authContext";
-import { Navigate, NavLink, useNavigate } from "react-router-dom";
+import { NavLink, useNavigate } from "react-router-dom";
 import AuthenticationPage from "./AuthenticationPage";
 import { useForm } from "react-hook-form";
 import Field from "../component/field/Field";
 import Label from "../component/label/Label";
 import Input from "../component/input/Input";
-import IconEyeClose from "../component/icon/IconEyeClose";
-import IconEye from "../component/icon/IconEye";
 import Button from "../component/button/Button";
 import * as yup from "yup";
 import { toast } from "react-toastify";
 import { auth, db } from "../firebase/firebaseConfig";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { signInWithEmailAndPassword } from "firebase/auth";
+import InputPasswordToggle from "../component/input/InputPasswordToggle";
 
 const schema = yup
   .object({
@@ -26,7 +25,6 @@ const schema = yup
   .required();
 
 const SignInPage = () => {
-  const [togglePassword, setTogglePassword] = useState(false);
   const {
     handleSubmit,
     control,
@@ -76,28 +74,7 @@ const SignInPage = () => {
           </Field>
           <Field>
             <Label htmlFor="password">Password</Label>
-            <Input
-              type={togglePassword === false ? "password" : "text"}
-              name="password"
-              placeholder="Enter your password"
-              control={control}
-            >
-              {!togglePassword ? (
-                <IconEye
-                  className="icon-eye"
-                  onClick={() => {
-                    setTogglePassword(!togglePassword);
-                  }}
-                ></IconEye>
-              ) : (
-                <IconEyeClose
-                  className="icon-eye"
-                  onClick={() => {
-                    setTogglePassword(!togglePassword);
-                  }}
-                ></IconEyeClose>
-              )}
-            </Input>
+            <InputPasswordToggle></InputPasswordToggle>
           </Field>
           <div className="mb-[20px]">
             you do not have an account yet?

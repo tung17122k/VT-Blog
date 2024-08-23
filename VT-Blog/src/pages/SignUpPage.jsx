@@ -1,13 +1,9 @@
 import React, { useEffect, useState } from "react";
-import styled from "styled-components";
 import Label from "@component/label/Label";
 import { useForm } from "react-hook-form";
 import Input from "@component/input/Input";
-import IconEye from "@component/icon/IconEye";
 import Field from "@component/field/Field";
-import { IconEyeClose } from "@component/icon";
 import Button from "../component/button/Button";
-import Loading from "@component/loading/Loading";
 import * as yup from "yup";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { toast } from "react-toastify";
@@ -17,23 +13,20 @@ import { auth, db } from "../firebase/firebaseConfig";
 import { NavLink, useNavigate } from "react-router-dom";
 import { addDoc, collection } from "firebase/firestore";
 import AuthenticationPage from "./AuthenticationPage";
+import InputPasswordToggle from "../component/input/InputPasswordToggle";
 
-const SignUpPageStyle = styled.div`
-  .errors {
-    color: red;
-  }
-  /* .field {
+/* .field {
     display: flex;
     flex-direction: column;
     align-items: flex-start;
     row-gap: 20px;
   } */
-  /* .label {
+/* .label {
     color: ${(props) => props.theme.grayDark};
     font-weight: 600;
     cursor: pointer;
   } */
-  /* .input {
+/* .input {
     width: 100%;
     padding: 20px;
     background-color: ${(props) => props.theme.grayLight};
@@ -53,7 +46,6 @@ const SignUpPageStyle = styled.div`
   .input::-moz-input-placeholder {
     color: #84878b;
   } */
-`;
 const schema = yup
   .object({
     fullname: yup.string().required("Please enter your fullname"),
@@ -66,15 +58,10 @@ const schema = yup
   .required();
 
 const SignUpPage = () => {
-  const [togglePassword, setTogglePassword] = useState(false);
-
   const {
     control,
-    register,
     handleSubmit,
     formState: { errors, isValid, isSubmitting },
-    watch,
-    reset,
   } = useForm({
     mode: "onChange",
     resolver: yupResolver(schema),
@@ -151,28 +138,7 @@ const SignUpPage = () => {
         </Field>
         <Field>
           <Label htmlFor="password">Password</Label>
-          <Input
-            type={togglePassword === false ? "password" : "text"}
-            name="password"
-            placeholder="Enter your password"
-            control={control}
-          >
-            {!togglePassword ? (
-              <IconEye
-                className="icon-eye"
-                onClick={() => {
-                  setTogglePassword(!togglePassword);
-                }}
-              ></IconEye>
-            ) : (
-              <IconEyeClose
-                className="icon-eye"
-                onClick={() => {
-                  setTogglePassword(!togglePassword);
-                }}
-              ></IconEyeClose>
-            )}
-          </Input>
+          <InputPasswordToggle control={control}></InputPasswordToggle>
           {errors?.password?.message && (
             <p className="text-red-500">{errors.password.message}</p>
           )}

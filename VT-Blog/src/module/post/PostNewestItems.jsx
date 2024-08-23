@@ -2,6 +2,7 @@ import React from "react";
 import styled from "styled-components";
 import PostCategory from "./PostCategory";
 import PostTitle from "./PostTitle";
+import PostMeta from "./PostMeta";
 
 const PostNewestItemsStyles = styled.div`
   display: flex;
@@ -68,11 +69,7 @@ const PostNewestItems = () => {
           Kiến thức
         </PostCategory>
         <PostTitle className="post-title">Setup khu vực làm việc</PostTitle>
-        <div className="post-info">
-          <span className="post-date">24 Aug</span>
-          <span className="post-dot"></span>
-          <span className="post-author">Tung Nguyen</span>
-        </div>
+        <PostMeta></PostMeta>
       </div>
     </PostNewestItemsStyles>
   );

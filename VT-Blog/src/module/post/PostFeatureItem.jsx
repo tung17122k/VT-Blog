@@ -2,6 +2,7 @@ import React from "react";
 import styled from "styled-components";
 import PostCategory from "./PostCategory";
 import PostTitle from "./PostTitle";
+import PostMeta from "./PostMeta";
 
 const PostFeatureItemStyles = styled.div`
   width: 100%;
@@ -48,7 +49,7 @@ const PostFeatureItemStyles = styled.div`
     background-color: #f3f3f3;
     max-width: 100px;
   } */
-  .post-info {
+  /* .post-info {
     display: flex;
     align-items: center;
     gap: 12px;
@@ -56,14 +57,8 @@ const PostFeatureItemStyles = styled.div`
     font-weight: 600;
     color: white;
     margin-left: auto;
-  }
-  .post-dot {
-    display: inline-block;
-    width: 4px;
-    height: 4px;
-    border-radius: 100rem;
-    background-color: currentColor;
-  }
+  } */
+
   .post-title {
     color: white;
   }
@@ -81,11 +76,7 @@ const PostFeatureItem = () => {
       <div className="post-content">
         <div className="post-top">
           <PostCategory>Kiến thức</PostCategory>
-          <div className="post-info">
-            <span className="post-time">Aug 24</span>
-            <span className="post-dot"></span>
-            <span className="post-author">Kun Nguyen</span>
-          </div>
+          <PostMeta></PostMeta>
         </div>
         <PostTitle className="post-title" size="medium">
           Setup khu vực làm việc

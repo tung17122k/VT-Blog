@@ -2,12 +2,14 @@ import React from "react";
 import styled from "styled-components";
 import PostCategory from "./PostCategory";
 import PostTitle from "./PostTitle";
+import PostMeta from "./PostMeta";
 
 const PostNewestLargeStyles = styled.div`
   .post-image {
     display: block;
     margin-bottom: 25px;
     height: 433px;
+
     img {
       width: 100%;
       height: 100%;
@@ -18,22 +20,9 @@ const PostNewestLargeStyles = styled.div`
   .post-category {
     margin-bottom: 10px;
   }
-  .post-info {
-    display: flex;
-    align-items: center;
-    gap: 12px;
-    font-size: 14px;
-    font-weight: 600;
-    margin-left: auto;
-    color: #6b6b6b;
+  .post-content {
   }
-  .post-dot {
-    display: inline-block;
-    width: 4px;
-    height: 4px;
-    border-radius: 100rem;
-    background-color: #6b6b6b;
-  }
+
   .post-title {
     /* font-weight: bold;
     line-height: 1.5;
@@ -56,11 +45,7 @@ const PostNewestLarge = () => {
       <PostTitle className="post-title" size="medium">
         Setup khu vực làm việc
       </PostTitle>
-      <div className="post-info">
-        <span className="post-date">24 Aug</span>
-        <span className="post-dot"></span>
-        <span className="post-author">Tung Nguyen</span>
-      </div>
+      <PostMeta></PostMeta>
     </PostNewestLargeStyles>
   );
 };

@@ -27,6 +27,10 @@ Currently, two official plugins are available:
 
 - viet signup (ui) => useForm lay ra values => loading => validation => authentication => propstype
 
+-- End day 1
+
 - viet signin_page
 
--- End day 1
+- viet banner
+
+-- End day 2

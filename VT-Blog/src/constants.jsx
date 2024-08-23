@@ -3,4 +3,6 @@ export const theme = {
   secondary: "#FACBA8",
   grayDark: "#292D32",
   grayLight: "#E7ECF3",
+  accent: "#00D1ED",
+  tertiary: "#3A1097",
 };

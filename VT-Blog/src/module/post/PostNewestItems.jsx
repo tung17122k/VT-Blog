@@ -1,5 +1,6 @@
 import React from "react";
 import styled from "styled-components";
+import PostCategory from "./PostCategory";
 
 const PostNewestItemsStyles = styled.div`
   display: flex;
@@ -26,13 +27,6 @@ const PostNewestItemsStyles = styled.div`
     }
   }
   .post-category {
-    display: inline-block;
-    padding: 8px;
-    border-radius: 8px;
-    color: #6b6b6b;
-    font-size: 12px;
-    font-weight: 600;
-    background-color: white;
     margin-bottom: 8px;
   }
   .post-info {
@@ -68,12 +62,16 @@ const PostNewestItems = () => {
           alt=""
         />
       </div>
-      <div className="post-category">Kiến thức</div>
-      <h3 className="post-title">Setup khu vực làm việc</h3>
-      <div className="post-info">
-        <span className="post-date">24 Aug</span>
-        <span className="post-dot"></span>
-        <span className="post-author">Tung Nguyen</span>
+      <div className="post-content">
+        <PostCategory className="post-category" type="secondary">
+          Kiến thức
+        </PostCategory>
+        <h3 className="post-title">Setup khu vực làm việc</h3>
+        <div className="post-info">
+          <span className="post-date">24 Aug</span>
+          <span className="post-dot"></span>
+          <span className="post-author">Tung Nguyen</span>
+        </div>
       </div>
     </PostNewestItemsStyles>
   );

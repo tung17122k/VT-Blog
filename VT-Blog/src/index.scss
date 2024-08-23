@@ -7,7 +7,7 @@
   padding: 0;
 }
 body {
-  font-family: "Poppins", sans-serif;
+  font-family: "Montserrat", sans-serif;
   font-size: 16px;
 }
 .container {
@@ -31,8 +31,18 @@ a {
   &::-webkit-scrollbar {
     display: none;
   }
-  grid-template-columns: repeat(3, minmax(0, 1fr));
-  gap: 38px;
+  @media screen and (min-width: 1024px) {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 48px;
+  }
+  @media screen and (max-width: 1023.98px) {
+    grid-auto-flow: column;
+    scroll-snap-type: x mandatory;
+    overflow-x: auto;
+  }
+  & > * {
+    scroll-snap-align: start;
+  }
   &--primary {
     grid-auto-columns: 267px;
     grid-template-columns: repeat(4, minmax(0, 1fr));

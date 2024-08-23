@@ -28,7 +28,7 @@ const HomeNewest = () => {
         <Heading>Mới nhất</Heading>
         <div className="layout">
           <PostNewestLarge></PostNewestLarge>
-          <div className="sidebar">
+          <div className="side-bar">
             <PostNewestItems></PostNewestItems>
             <PostNewestItems></PostNewestItems>
             <PostNewestItems></PostNewestItems>

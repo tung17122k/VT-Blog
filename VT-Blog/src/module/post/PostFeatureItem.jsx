@@ -3,6 +3,7 @@ import styled from "styled-components";
 import PostCategory from "./PostCategory";
 import PostTitle from "./PostTitle";
 import PostMeta from "./PostMeta";
+import PostImage from "./PostImage";
 
 const PostFeatureItemStyles = styled.div`
   width: 100%;
@@ -36,28 +37,6 @@ const PostFeatureItemStyles = styled.div`
     align-items: center;
     margin-bottom: 16px;
   }
-  /* .post-category {
-    display: inline-block;
-    padding: 8px 12px;
-    border-radius: 8px;
-    color: #6b6b6b;
-    font-size: 14px;
-    font-weight: 600;
-    white-space: nowrap;
-    overflow: hidden;
-    text-overflow: ellipsis;
-    background-color: #f3f3f3;
-    max-width: 100px;
-  } */
-  /* .post-info {
-    display: flex;
-    align-items: center;
-    gap: 12px;
-    font-size: 14px;
-    font-weight: 600;
-    color: white;
-    margin-left: auto;
-  } */
 
   .post-title {
     color: white;
@@ -67,11 +46,10 @@ const PostFeatureItemStyles = styled.div`
 const PostFeatureItem = () => {
   return (
     <PostFeatureItemStyles>
-      <img
-        src="https://images.unsplash.com/photo-1547082299-de196ea013d6?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
-        alt=""
+      <PostImage
+        url="https://images.unsplash.com/photo-1547082299-de196ea013d6?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
         className="post-image"
-      />
+      ></PostImage>
       <div className="post-overlay"></div>
       <div className="post-content">
         <div className="post-top">

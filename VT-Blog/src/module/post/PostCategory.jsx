@@ -9,11 +9,8 @@ const PostCategoryStyles = styled.div`
   color: #6b6b6b;
   font-size: 14px;
   font-weight: 600;
-  /* white-space: nowrap; */
-  /* overflow: hidden; */
-  /* text-overflow: ellipsis; */
   background-color: #f3f3f3;
-  /* max-width: 100px; */
+
   a {
     display: block;
   }

@@ -46,3 +46,7 @@ Currently, two official plugins are available:
 - detail ui
 
 - Routing
+
+- responsive
+
+-- End day 3

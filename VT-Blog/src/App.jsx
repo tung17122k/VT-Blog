@@ -5,6 +5,7 @@ import SignInPage from "./pages/SignInPage";
 import "./App.css";
 import HomePage from "./pages/HomePage";
 import NotFoundPage from "./pages/NotFoundPage";
+import PostDetailPage from "./pages/PostDetailPage";
 
 function App() {
   return (
@@ -15,6 +16,11 @@ function App() {
           <Route path="/sign-up" element={<SignUpPage></SignUpPage>}></Route>
           <Route path="/sign-in" element={<SignInPage></SignInPage>}></Route>
           <Route path="*" element={<NotFoundPage></NotFoundPage>}></Route>
+          <Route
+            // path="/:slug"
+            path="/post-detail"
+            element={<PostDetailPage></PostDetailPage>}
+          ></Route>
         </Routes>
       </AuthProvider>
     </div>

@@ -42,8 +42,8 @@ const SignInPage = () => {
   useEffect(() => {
     // redirect
     document.title = "Login Page";
-    if (userInfo?.email) navigate("/");
-    else navigate("/sign-in");
+    // if (userInfo?.email) navigate("/");
+    // else navigate("/sign-in");
   }, []);
   const handleSignin = async (values) => {
     console.log(values);
@@ -74,10 +74,10 @@ const SignInPage = () => {
           </Field>
           <Field>
             <Label htmlFor="password">Password</Label>
-            <InputPasswordToggle></InputPasswordToggle>
+            <InputPasswordToggle control={control}></InputPasswordToggle>
           </Field>
           <div className="mb-[20px]">
-            you do not have an account yet?
+            You do not have an account yet?
             <NavLink
               to={"/sign-up"}
               className="inline-block ml-1 font-medium underline text-violet-700"

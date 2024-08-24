@@ -25,12 +25,24 @@ Currently, two official plugins are available:
 
 - auth context : để lưu trữ thông tin user
 
+--------------- SignUp Page --------------------------
+
 - viet signup (ui) => useForm lay ra values => loading => validation => authentication => propstype
 
 -- End day 1
 
-- viet signin_page
+--------------- SignIn Page --------------------
+
+- viet signin_page : react hook form + yup login ui
+
+-- End day 2
+
+---------------- Home Page -------------------
+
+- header ui
 
 - viet banner
 
--- End day 2
+- detail ui
+
+- Routing

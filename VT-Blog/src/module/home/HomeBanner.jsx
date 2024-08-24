@@ -66,7 +66,12 @@ const HomeBanner = () => {
             would like to share with you some good software testing forums (yes,
             still alive) that’s worth your time to visit and join.
           </p>
-          <Button type="button" to="/sign-up" kind="secondary">
+          <Button
+            type="button"
+            to="/sign-up"
+            kind="secondary"
+            className="banner-button"
+          >
             Get Started
           </Button>
         </div>

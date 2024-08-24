@@ -41,6 +41,16 @@ const PostFeatureItemStyles = styled.div`
   .post-title {
     color: white;
   }
+  @media screen and (max-width: 1023.98px) {
+    .post {
+      &-content {
+        padding: 15px;
+      }
+      &-category {
+        margin-right: 10px;
+      }
+    }
+  }
 `;
 
 const PostFeatureItem = () => {
@@ -53,7 +63,7 @@ const PostFeatureItem = () => {
       <div className="post-overlay"></div>
       <div className="post-content">
         <div className="post-top">
-          <PostCategory>Kiến thức</PostCategory>
+          <PostCategory className="post-category">Kiến thức</PostCategory>
           <PostMeta></PostMeta>
         </div>
         <PostTitle className="post-title" size="medium">

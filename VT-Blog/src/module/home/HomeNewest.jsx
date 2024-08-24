@@ -19,6 +19,14 @@ const HomeNewestStyles = styled.div`
     background-color: #f3edff;
     border-radius: 12px;
   }
+  @media screen and (max-width: 1023.98px) {
+    .layout {
+      grid-template-columns: 100%;
+    }
+    .side-bar {
+      padding: 14px 10px;
+    }
+  }
 `;
 
 const HomeNewest = () => {

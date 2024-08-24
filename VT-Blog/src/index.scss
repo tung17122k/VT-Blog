@@ -45,10 +45,15 @@ a {
   }
   &--primary {
     grid-auto-columns: 267px;
-    grid-template-columns: repeat(4, minmax(0, 1fr));
+    @media screen and (min-width: 1024px) {
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+    }
   }
 }
 
 .home-block {
   padding-bottom: 40px;
+  @media screen and (min-width: 1024px) {
+    padding-bottom: 60px;
+  }
 }

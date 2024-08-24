@@ -16,6 +16,10 @@ const PostMetaStyles = styled.div`
     border-radius: 100rem;
     background-color: currentColor;
   }
+  @media screen and (max-width: 1023.98px) {
+    font-size: 10px;
+    gap: 6px;
+  }
 `;
 
 const PostMeta = ({ date = "Aug 24", author = "Tung Nguyen", className }) => {

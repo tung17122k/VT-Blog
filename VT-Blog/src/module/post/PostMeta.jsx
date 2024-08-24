@@ -1,5 +1,5 @@
 import React from "react";
-import styled from "styled-components";
+import styled, { css } from "styled-components";
 
 const PostMetaStyles = styled.div`
   display: flex;
@@ -7,7 +7,7 @@ const PostMetaStyles = styled.div`
   gap: 12px;
   font-size: 14px;
   font-weight: 600;
-  color: inherit;
+  color: ${(props) => props.theme.gray6b};
 
   .post-dot {
     display: inline-block;
@@ -16,15 +16,25 @@ const PostMetaStyles = styled.div`
     border-radius: 100rem;
     background-color: currentColor;
   }
+  ${(props) =>
+    props.color === "white" &&
+    css`
+      color: white;
+    `};
   @media screen and (max-width: 1023.98px) {
     font-size: 10px;
     gap: 6px;
   }
 `;
 
-const PostMeta = ({ date = "Aug 24", author = "Tung Nguyen", className }) => {
+const PostMeta = ({
+  date = "Aug 24",
+  author = "Tung Nguyen",
+  className,
+  color,
+}) => {
   return (
-    <PostMetaStyles className={className}>
+    <PostMetaStyles className={className} color={color}>
       <span className="post-time">{date}</span>
       <span className="post-dot"></span>
       <span className="post-author">{author}</span>

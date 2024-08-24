@@ -7,7 +7,7 @@ const HeadingStyles = styled.h2`
   font-weight: 600;
   line-height: 36px;
   position: relative;
-  margin-bottom: 30px;
+  margin-bottom: 40px;
   &:before {
     content: "";
     width: 50px;

@@ -19,7 +19,7 @@ const PostItemStyles = styled.div`
     margin-bottom: 10px;
   }
   .post-title {
-    margin-bottom: 8px;
+    margin-bottom: 15px;
   }
   @media screen and (max-width: 1023.98px) {
     .post {

@@ -64,7 +64,7 @@ const PostFeatureItem = () => {
       <div className="post-content">
         <div className="post-top">
           <PostCategory className="post-category">Kiến thức</PostCategory>
-          <PostMeta></PostMeta>
+          <PostMeta color="white"></PostMeta>
         </div>
         <PostTitle className="post-title" size="medium">
           Setup khu vực làm việc

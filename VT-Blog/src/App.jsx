@@ -6,6 +6,7 @@ import "./App.css";
 import HomePage from "./pages/HomePage";
 import NotFoundPage from "./pages/NotFoundPage";
 import PostDetailPage from "./pages/PostDetailPage";
+import DashboardPage from "./pages/DashboardPage";
 
 function App() {
   return (
@@ -20,6 +21,10 @@ function App() {
             // path="/:slug"
             path="/post-detail"
             element={<PostDetailPage></PostDetailPage>}
+          ></Route>
+          <Route
+            path="/dashboard"
+            element={<DashboardPage></DashboardPage>}
           ></Route>
         </Routes>
       </AuthProvider>

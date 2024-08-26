@@ -29,12 +29,10 @@ const DashboardLayout = ({ children }) => {
       <DashboardHeader></DashboardHeader>
       <div className="dashboard-main">
         <Sidebar></Sidebar>
-        <PostAddNew>
-          <Outlet></Outlet>
-        </PostAddNew>
-        {/* <div className="dashboard-children"> */}
 
-        {/* </div> */}
+        <div className="dashboard-children">
+          <Outlet></Outlet>
+        </div>
       </div>
     </DashboardLayoutStyles>
   );

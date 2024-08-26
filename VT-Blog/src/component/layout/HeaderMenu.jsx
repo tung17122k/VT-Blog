@@ -151,7 +151,7 @@ const HeaderMenu = () => {
               to="/sign-in"
               kind
             >
-              Sign Up
+              Login
             </Button>
           ) : (
             <div className="header-auth">

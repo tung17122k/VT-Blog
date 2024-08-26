@@ -58,7 +58,7 @@ const Button = ({
   const child = !!isLoading ? <Loading></Loading> : children; // convert boolean
   if (to !== "" && typeof to === "string") {
     return (
-      <NavLink to={to}>
+      <NavLink to={to} className="inline-block">
         <ButtonStyles type={type} kind={kind} {...props}>
           {child}
         </ButtonStyles>

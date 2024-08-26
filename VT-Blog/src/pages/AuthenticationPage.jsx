@@ -24,9 +24,11 @@ const AuthenticationPage = ({ children }) => {
   return (
     <AuthenticationPageStyles>
       <div className="container">
-        <NavLink to="/">
-          <img srcSet="/logo.png 2x" alt="vt-blog" className="logo" />
-        </NavLink>
+        <div className="text-center">
+          <NavLink to="/">
+            <img srcSet="/logo.png 2x" alt="vt-blog" className="logo" />
+          </NavLink>
+        </div>
         <h1 className="heading">VT Blogging</h1>
         {children}
       </div>

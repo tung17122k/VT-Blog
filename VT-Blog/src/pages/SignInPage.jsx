@@ -1,17 +1,17 @@
 import React, { useEffect, useState } from "react";
 import { useAuth } from "../context/authContext";
 import { NavLink, useNavigate } from "react-router-dom";
-import AuthenticationPage from "./AuthenticationPage";
 import { useForm } from "react-hook-form";
+import { toast } from "react-toastify";
+import { auth, db } from "../firebase/firebaseConfig";
+import { yupResolver } from "@hookform/resolvers/yup";
+import { signInWithEmailAndPassword } from "firebase/auth";
+import AuthenticationPage from "./AuthenticationPage";
 import Field from "../component/field/Field";
 import Label from "../component/label/Label";
 import Input from "../component/input/Input";
 import Button from "../component/button/Button";
 import * as yup from "yup";
-import { toast } from "react-toastify";
-import { auth, db } from "../firebase/firebaseConfig";
-import { yupResolver } from "@hookform/resolvers/yup";
-import { signInWithEmailAndPassword } from "firebase/auth";
 import InputPasswordToggle from "../component/input/InputPasswordToggle";
 
 const schema = yup
@@ -87,11 +87,11 @@ const SignInPage = () => {
           </div>
           <Button
             type="submit"
-            style={{ maxWidth: "300px", margin: "0 auto", width: "100%" }}
             isLoading={isSubmitting}
             disabled={isSubmitting}
+            className="w-full max-w-[300px] mx-auto"
           >
-            Sign In
+            Login
           </Button>
         </form>
       </AuthenticationPage>

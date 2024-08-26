@@ -8,6 +8,7 @@ import { useForm } from "react-hook-form";
 import { Button } from "../../component/button";
 import { Radio } from "../../component/checkbox";
 import { Dropdown } from "../../component/dropdown";
+import Toggle from "../../component/toggle/Toggle";
 
 const PostAddNewStyles = styled.div``;
 const PostAddNew = () => {
@@ -91,6 +92,7 @@ const PostAddNew = () => {
           <Field>
             <Label>Category</Label>
             <Dropdown>
+              <Dropdown.Search></Dropdown.Search>
               <Dropdown.Option>Knowledge</Dropdown.Option>
               <Dropdown.Option>Blockchain</Dropdown.Option>
               <Dropdown.Option>Setup</Dropdown.Option>
@@ -98,7 +100,9 @@ const PostAddNew = () => {
               <Dropdown.Option>Developer</Dropdown.Option>
             </Dropdown>
           </Field>
-          <Field></Field>
+          <Field>
+            <Toggle on={true}></Toggle>
+          </Field>
         </div>
         <Button type="submit" className="mx-auto">
           Add new post

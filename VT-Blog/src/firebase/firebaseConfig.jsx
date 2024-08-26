@@ -3,7 +3,7 @@ import { getFirestore } from "firebase/firestore";
 import { getAuth } from "firebase/auth";
 
 const apiUrl = import.meta.env.VITE_APP_FIREBASE_API_KEY;
-console.log(apiUrl);
+// console.log(apiUrl);
 
 const firebaseConfig = {
   apiKey: import.meta.env.VITE_APP_FIREBASE_API_KEY,

@@ -23,15 +23,21 @@ const PostAddNew = () => {
   });
   // nếu được chọn thì value sẽ gán vào status => watchStatus = approved => checked
   const watchStatus = watch("status");
-  //   console.log("🚀 ~ PostAddNew ~ watchStatus:", watchStatus);
+  console.log("🚀 ~ PostAddNew ~ watchStatus:", watchStatus);
   const watchCategory = watch("category");
 
   const addPostHandle = async (values) => {
+    console.log(values);
     const cloneValues = { ...values };
     cloneValues.slug = slugify(values.slug || values.title);
-    cloneValues.status = Number(values.status);
-    console.log("addPostHandler ~ cloneValues", cloneValues);
+    cloneValues.status = values.status; // convert thanh number
+    // console.log(values.status);
+
+    // console.log("addPostHandler ~ cloneValues", cloneValues.status);
   };
+  // console.log(postStatus.APPROVED);
+  // console.log(Number(watchStatus));
+
   return (
     <PostAddNewStyles>
       <h1 className="dashboard-heading">Add New Post</h1>
@@ -61,27 +67,24 @@ const PostAddNew = () => {
               <Radio
                 name="status"
                 control={control}
-                checked={watchStatus === "approved"}
-                onClick={() => setValue("status", "approved")}
-                value="approved"
+                checked={Number(watchStatus) === postStatus.APPROVED} // nếu checked => gán watchStatus === postStatus.APPROVED
+                value={postStatus.APPROVED}
               >
                 Appoved
               </Radio>
               <Radio
                 name="status"
                 control={control}
-                checked={watchStatus === "pending"}
-                onClick={() => setValue("status", "pending")}
-                value="pending"
+                checked={Number(watchStatus) === postStatus.PENDING}
+                value={postStatus.PENDING}
               >
                 Pending
               </Radio>
               <Radio
                 name="status"
                 control={control}
-                checked={watchStatus === "reject"}
-                onClick={() => setValue("status", "reject")}
-                value="reject"
+                checked={Number(watchStatus) === postStatus.REJECTED}
+                value={postStatus.REJECTED}
               >
                 Reject
               </Radio>

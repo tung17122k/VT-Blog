@@ -21,8 +21,8 @@ function App() {
           <Route path="/sign-in" element={<SignInPage></SignInPage>}></Route>
           <Route path="*" element={<NotFoundPage></NotFoundPage>}></Route>
           <Route
-            // path="/:slug"
-            path="/post-detail"
+            path="/:slug"
+            // path="/post-detail"
             element={<PostDetailPage></PostDetailPage>}
           ></Route>
           <Route element={<DashboardLayout></DashboardLayout>}>

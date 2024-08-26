@@ -1,7 +1,7 @@
 import React from "react";
-import Table from "../../component/table/Table";
+import { Table } from "../../component/table";
 import styled from "styled-components";
-import Pagination from "../../component/pagination/Pagination";
+import { Pagination } from "../../component/pagination";
 
 const PostManageStyles = styled.div``;
 const PostManage = () => {

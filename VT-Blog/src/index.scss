@@ -103,4 +103,28 @@ a {
     font-size: 14px;
     color: #6b6b6b;
   }
+  @media screen and (max-width: 1023.98px) {
+    font-size: 14px;
+    h2 {
+      font-size: 26px;
+    }
+    h3 {
+      font-size: 24px;
+    }
+    h4 {
+      font-size: 20px;
+    }
+  }
+}
+
+.hidden-input {
+  border: 0;
+  // clip: rect(0 0 0 0);
+  // height: 1px;
+  // margin: -1px;
+  // overflow: hidden;
+  padding: 0;
+  position: absolute;
+  width: 1px;
+  white-space: nowrap;
 }

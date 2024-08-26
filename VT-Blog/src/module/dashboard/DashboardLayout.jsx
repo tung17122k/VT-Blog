@@ -4,6 +4,7 @@ import styled from "styled-components";
 import Sidebar from "./Sidebar";
 import { Outlet } from "react-router-dom";
 import PostManage from "../post/PostManage";
+import PostAddNew from "../post/PostAddNew";
 const DashboardLayoutStyles = styled.div`
   max-width: 1600px;
   margin: 0 auto;
@@ -18,6 +19,7 @@ const DashboardLayoutStyles = styled.div`
     font-size: 36px;
     color: ${(props) => props.theme.primary};
     letter-spacing: 1px;
+    margin-bottom: 40px;
   }
 `;
 
@@ -27,9 +29,12 @@ const DashboardLayout = ({ children }) => {
       <DashboardHeader></DashboardHeader>
       <div className="dashboard-main">
         <Sidebar></Sidebar>
-        <div className="dashboard-children">
+        <PostAddNew>
           <Outlet></Outlet>
-        </div>
+        </PostAddNew>
+        {/* <div className="dashboard-children"> */}
+
+        {/* </div> */}
       </div>
     </DashboardLayoutStyles>
   );

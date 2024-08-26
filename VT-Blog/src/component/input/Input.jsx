@@ -47,6 +47,7 @@ const Input = ({
     name,
     defaultValue: "",
   });
+  // console.log({ field });
 
   return (
     <InputStyles $hasIcon={children ? true : false}>

@@ -8,6 +8,7 @@ import NotFoundPage from "./pages/NotFoundPage";
 import PostDetailPage from "./pages/PostDetailPage";
 import DashboardPage from "./pages/DashboardPage";
 import PostManage from "./module/post/PostManage";
+import PostAddNew from "./module/post/PostAddNew";
 
 function App() {
   return (
@@ -28,8 +29,12 @@ function App() {
             element={<DashboardPage></DashboardPage>}
           ></Route>
           <Route
-            path="/manage-post"
+            path="/manage/post"
             element={<PostManage></PostManage>}
+          ></Route>
+          <Route
+            path="/manage/add-post"
+            element={<PostAddNew></PostAddNew>}
           ></Route>
         </Routes>
       </AuthProvider>

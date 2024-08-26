@@ -9,10 +9,12 @@ import { Button } from "../../component/button";
 import { Radio } from "../../component/checkbox";
 import { Dropdown } from "../../component/dropdown";
 import Toggle from "../../component/toggle/Toggle";
+import slugify from "slugify";
+import { postStatus } from "../../utils/constants";
 
 const PostAddNewStyles = styled.div``;
 const PostAddNew = () => {
-  const { control, watch, setValue } = useForm({
+  const { control, watch, setValue, handleSubmit } = useForm({
     mode: "onchange",
     defaultValues: {
       status: "",
@@ -23,10 +25,17 @@ const PostAddNew = () => {
   const watchStatus = watch("status");
   //   console.log("🚀 ~ PostAddNew ~ watchStatus:", watchStatus);
   const watchCategory = watch("category");
+
+  const addPostHandle = async (values) => {
+    const cloneValues = { ...values };
+    cloneValues.slug = slugify(values.slug || values.title);
+    cloneValues.status = Number(values.status);
+    console.log("addPostHandler ~ cloneValues", cloneValues);
+  };
   return (
     <PostAddNewStyles>
       <h1 className="dashboard-heading">Add New Post</h1>
-      <form>
+      <form onSubmit={handleSubmit(addPostHandle)}>
         <div className="grid grid-cols-2 mb-10 gap-x-10">
           <Field>
             <Label>Title</Label>

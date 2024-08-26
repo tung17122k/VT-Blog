@@ -13,4 +13,7 @@ export default defineConfig({
       "@component": path.resolve("src/component"),
     },
   },
+  define: {
+    // "process.env.NODE_ENV": "development", // set NODE_ENV
+  },
 });

@@ -4,11 +4,7 @@ import DashboardHeader from "../module/dashboard/DashboardHeader";
 import DashboardLayout from "../module/dashboard/DashboardLayout";
 
 const DashboardPage = () => {
-  return (
-    <div>
-      <DashboardLayout></DashboardLayout>
-    </div>
-  );
+  return <div></div>;
 };
 
 export default DashboardPage;

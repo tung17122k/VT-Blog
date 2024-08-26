@@ -29,7 +29,6 @@ const DashboardLayout = ({ children }) => {
       <DashboardHeader></DashboardHeader>
       <div className="dashboard-main">
         <Sidebar></Sidebar>
-
         <div className="dashboard-children">
           <Outlet></Outlet>
         </div>

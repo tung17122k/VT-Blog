@@ -12,7 +12,7 @@ const HomePageStyles = styled.div``;
 
 const HomePage = () => {
   const handleSignOut = () => {
-    signOut(auth);
+    // signOut(auth);
   };
   return (
     <HomePageStyles>

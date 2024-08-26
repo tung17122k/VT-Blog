@@ -50,3 +50,7 @@ Currently, two official plugins are available:
 - responsive
 
 -- End day 3
+
+- Dashboard : Dashboard Page : Dashboard Header , Dashboard Layout, sidebar
+  ---- Post Manage: Table , search , Paginate
+  => import react-paginate : npm i react-paginate

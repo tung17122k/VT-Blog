@@ -3,6 +3,7 @@ import DashboardHeader from "./DashboardHeader";
 import styled from "styled-components";
 import Sidebar from "./Sidebar";
 import { Outlet } from "react-router-dom";
+import PostManage from "../post/PostManage";
 const DashboardLayoutStyles = styled.div`
   max-width: 1600px;
   margin: 0 auto;
@@ -12,16 +13,21 @@ const DashboardLayoutStyles = styled.div`
     padding: 40px 20px;
     gap: 0 40px;
   }
+  .dashboard-heading {
+    font-weight: bold;
+    font-size: 36px;
+    color: ${(props) => props.theme.primary};
+    letter-spacing: 1px;
+  }
 `;
 
 const DashboardLayout = ({ children }) => {
   return (
     <DashboardLayoutStyles>
       <DashboardHeader></DashboardHeader>
-
       <div className="dashboard-main">
         <Sidebar></Sidebar>
-        <div className="dashboard-main-chil">
+        <div className="dashboard-children">
           <Outlet></Outlet>
         </div>
       </div>

@@ -15,7 +15,7 @@ const SidebarStyles = styled.div`
       max-width: 40px;
     }
     margin-bottom: 20px;
-    padding: 20px 20px 0;
+    padding: 20px 20px 20px;
   }
   .menu-item {
     display: flex;
@@ -57,7 +57,7 @@ const sidebarLinks = [
   },
   {
     title: "Post",
-    url: "/manage/post",
+    url: "/manage-post",
     icon: (
       <svg
         xmlns="http://www.w3.org/2000/svg"
@@ -97,7 +97,7 @@ const sidebarLinks = [
   },
   {
     title: "User",
-    url: "/manage/user",
+    url: "/manage-user",
     icon: (
       <svg
         xmlns="http://www.w3.org/2000/svg"

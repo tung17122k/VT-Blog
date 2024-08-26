@@ -30,8 +30,9 @@ const PostAddNew = () => {
     console.log(values);
     const cloneValues = { ...values };
     cloneValues.slug = slugify(values.slug || values.title);
-    cloneValues.status = values.status; // convert thanh number
+    cloneValues.status = Number(values.status); // convert thanh number
     // console.log(values.status);
+    // console.log(typeof cloneValues.status);
 
     // console.log("addPostHandler ~ cloneValues", cloneValues.status);
   };

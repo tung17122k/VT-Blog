@@ -54,3 +54,9 @@ Currently, two official plugins are available:
 - Dashboard : Dashboard Page : Dashboard Header , Dashboard Layout, sidebar
   ---- Post Manage: Table , search , Paginate
   => import react-paginate : npm i react-paginate
+
+--- End day 4
+
+- Add new post => id , title, slug, image , createAt, status, content, userId, categoryId
+
+- Upload file img to storage => https://firebase.google.com/docs/storage/web/upload-files?hl=en&authuser=0

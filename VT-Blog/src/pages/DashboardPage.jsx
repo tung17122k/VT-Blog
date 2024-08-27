@@ -1,10 +1,8 @@
 import React from "react";
-import styled from "styled-components";
-import DashboardHeader from "../module/dashboard/DashboardHeader";
-import DashboardLayout from "../module/dashboard/DashboardLayout";
+import DashboardHeading from "../module/dashboard/DashboardHeading";
 
 const DashboardPage = () => {
-  return <div></div>;
+  return <DashboardHeading>Dashboard</DashboardHeading>;
 };
 
 export default DashboardPage;

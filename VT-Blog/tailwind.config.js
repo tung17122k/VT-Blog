@@ -7,8 +7,6 @@ export default {
         primary: "#C471FD",
         secondary: "#FACBA8",
       },
-    },
-    theme: {
       fontWeight: {
         thin: "100",
         hairline: "100",

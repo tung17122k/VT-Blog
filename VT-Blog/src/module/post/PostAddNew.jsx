@@ -1,13 +1,6 @@
 /* eslint-disable no-undef */
 import React from "react";
 import styled from "styled-components";
-import {
-  getStorage,
-  ref,
-  uploadBytesResumable,
-  getDownloadURL,
-  deleteObject,
-} from "firebase/storage";
 import { Field } from "../../component/field";
 import { Label } from "../../component/label";
 import { Input } from "../../component/input";
@@ -16,15 +9,12 @@ import { Button } from "../../component/button";
 import { Radio } from "../../component/checkbox";
 import { Dropdown } from "../../component/dropdown";
 import { ImageUpload } from "../../component/image";
-import Toggle from "../../component/toggle/Toggle";
 import slugify from "slugify";
-import { useState } from "react";
 import { postStatus } from "../../utils/constants";
+import useImage from "../../hooks/useFirebaseImage";
 
 const PostAddNewStyles = styled.div``;
 const PostAddNew = () => {
-  const [progress, setProgress] = useState(0);
-  const [image, setImage] = useState("");
   const { control, watch, setValue, handleSubmit, getValues } = useForm({
     mode: "onchange",
     defaultValues: {
@@ -34,6 +24,10 @@ const PostAddNew = () => {
       slug: "",
     },
   });
+  const { progress, image, handleDeleteImage, handleSelectImage } = useImage(
+    setValue,
+    getValues
+  );
   // nếu được chọn thì value sẽ gán vào status => watchStatus = approved => checked
   const watchStatus = watch("status");
   const watchCategory = watch("category");
@@ -43,65 +37,6 @@ const PostAddNew = () => {
     const cloneValues = { ...values };
     cloneValues.status = Number(values.status); // convert thanh number
     console.log(cloneValues);
-  };
-
-  const onSelectImage = (e) => {
-    const file = e.target.files[0];
-    console.log(file.name);
-    if (!file) return;
-    setValue("image_name", file.name);
-    handleUploadImage(file);
-  };
-  const handleDeleteImage = () => {
-    const storage = getStorage();
-    const imageRef = ref(storage, "images/" + getValues("image_name"));
-    deleteObject(imageRef)
-      .then(() => {
-        console.log("Remove success!");
-        setImage("");
-        setProgress(0);
-      })
-      .catch((error) => {
-        console.log("Remove fail");
-      });
-  };
-
-  const handleUploadImage = (file) => {
-    const storage = getStorage();
-    const metadata = {
-      contentType: file.type === "image/png" ? "image/png" : "image/jpeg",
-    };
-    const storageRef = ref(storage, "images/" + file.name);
-    const uploadTask = uploadBytesResumable(storageRef, file, metadata);
-
-    uploadTask.on(
-      "state_changed",
-      (snapshot) => {
-        const progressPer =
-          (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
-        setProgress(progressPer);
-        console.log("Upload is " + progressPer + "% done");
-        switch (snapshot.state) {
-          case "paused":
-            console.log("Upload is paused");
-            break;
-          case "running":
-            console.log("Upload is running");
-            break;
-          default:
-            console.log("Nothing at all");
-        }
-      },
-      (error) => {
-        console.log(error);
-      },
-      () => {
-        getDownloadURL(uploadTask.snapshot.ref).then((downloadURL) => {
-          console.log("File available at", downloadURL);
-          setImage(downloadURL);
-        });
-      }
-    );
   };
 
   return (
@@ -185,7 +120,7 @@ const PostAddNew = () => {
           <Field>
             <Label>Image</Label>
             <ImageUpload
-              onChange={onSelectImage}
+              onChange={handleSelectImage}
               progress={progress}
               image={image}
               handleDeleteImage={handleDeleteImage}

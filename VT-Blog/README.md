@@ -60,3 +60,5 @@ Currently, two official plugins are available:
 - Add new post => id , title, slug, image , createAt, status, content, userId, categoryId
 
 - Upload file img to storage => https://firebase.google.com/docs/storage/web/upload-files?hl=en&authuser=0
+
+- delete file img in storage => https://firebase.google.com/docs/storage/web/delete-files?hl=en&authuser=0

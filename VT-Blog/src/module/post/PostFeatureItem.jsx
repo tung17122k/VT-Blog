@@ -1,9 +1,18 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import styled from "styled-components";
 import PostCategory from "./PostCategory";
 import PostTitle from "./PostTitle";
 import PostMeta from "./PostMeta";
 import PostImage from "./PostImage";
+import {
+  collection,
+  query,
+  where,
+  getDocs,
+  getDoc,
+  doc,
+} from "firebase/firestore";
+import { db } from "../../firebase/firebaseConfig";
 
 const PostFeatureItemStyles = styled.div`
   width: 100%;
@@ -53,21 +62,30 @@ const PostFeatureItemStyles = styled.div`
   }
 `;
 
-const PostFeatureItem = () => {
+const PostFeatureItem = ({ data }) => {
+  const [category, setCategory] = useState("");
+  useEffect(() => {
+    async function getData() {
+      const snap = await getDoc(doc(db, "categories", data.categoryId));
+      console.log("🚀 ~ getData ~ snap:", snap.data());
+    }
+    getData();
+    // const colRef = collection(db, "categories");
+    // const queries = query(colRef, where(data.categoryId));
+  }, [data.categoryId]);
+
+  if (!data.id) return null;
   return (
     <PostFeatureItemStyles>
-      <PostImage
-        url="https://images.unsplash.com/photo-1547082299-de196ea013d6?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
-        className="post-image"
-      ></PostImage>
+      <PostImage url={data.image} className="post-image"></PostImage>
       <div className="post-overlay"></div>
       <div className="post-content">
         <div className="post-top">
           <PostCategory className="post-category">Kiến thức</PostCategory>
-          <PostMeta color="white"></PostMeta>
+          <PostMeta color="white" author={data.author}></PostMeta>
         </div>
         <PostTitle className="post-title" size="medium">
-          Setup khu vực làm việc
+          {data.title}
         </PostTitle>
       </div>
     </PostFeatureItemStyles>

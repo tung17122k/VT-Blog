@@ -5,6 +5,8 @@ import Sidebar from "./Sidebar";
 import { Outlet } from "react-router-dom";
 import PostManage from "../post/PostManage";
 import PostAddNew from "../post/PostAddNew";
+import { useAuth } from "../../context/authContext";
+import NotFoundPage from "../../pages/NotFoundPage";
 const DashboardLayoutStyles = styled.div`
   max-width: 1600px;
   margin: 0 auto;
@@ -24,6 +26,10 @@ const DashboardLayoutStyles = styled.div`
 `;
 
 const DashboardLayout = ({ children }) => {
+  const { userInfo } = useAuth();
+  // console.log("🚀 ~ DashboardLayout ~ userInfo:", userInfo);
+  if (!userInfo) return <NotFoundPage></NotFoundPage>;
+
   return (
     <DashboardLayoutStyles>
       <DashboardHeader></DashboardHeader>

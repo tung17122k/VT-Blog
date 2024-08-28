@@ -3,7 +3,7 @@ import React from "react";
 import { useEffect, useState } from "react";
 import styled from "styled-components";
 import { db } from "../../firebase/firebaseConfig";
-import { collection, where, query, getDocs } from "firebase/firestore";
+import { collection, where, query, getDocs, addDoc } from "firebase/firestore";
 import { Field } from "../../component/field";
 import { Label } from "../../component/label";
 import { Input } from "../../component/input";
@@ -16,50 +16,81 @@ import Toggle from "../../component/toggle/Toggle";
 import slugify from "slugify";
 import { postStatus } from "../../utils/constants";
 import useImage from "../../hooks/useFirebaseImage";
+import { useAuth } from "../../context/authContext";
+import { toast } from "react-toastify";
 
 const PostAddNewStyles = styled.div``;
 const PostAddNew = () => {
+  const { userInfo } = useAuth();
   const [categories, setCategories] = useState([]);
-  const { control, watch, setValue, handleSubmit, getValues } = useForm({
+  const [selectCategory, setSelectCategory] = useState("");
+
+  const { control, watch, setValue, handleSubmit, getValues, reset } = useForm({
     mode: "onchange",
     defaultValues: {
       status: 2,
-      category: "",
       title: "",
       slug: "",
       feature: false,
       categoryId: "",
+      image: "",
     },
   });
   const { progress, image, handleDeleteImage, handleSelectImage } = useImage(
     setValue,
     getValues
   );
+  useEffect(() => {
+    if (image) {
+      setValue("image", image); // Update image in form
+    }
+  }, [image, setValue]);
 
+  // get db from filebase
   useEffect(() => {
     async function getData() {
       const colRef = collection(db, "categories");
-      const q = query(colRef, where("status", "==", 1));
+      const q = query(colRef, where("status", "in", [1, 2, 3]));
       let result = [];
       const querySnapshot = await getDocs(q);
       querySnapshot.forEach((doc) => {
-        console.log(doc.id, " => ", doc.data());
         result.push({ id: doc.id, ...doc.data() });
         setCategories(result);
       });
     }
     getData();
   }, []);
+
+  // ui selection dropdown
+  const handleChooseOption = (item) => {
+    setValue("categoryId", item.id);
+    setSelectCategory(item);
+  };
+
   // nếu được chọn thì value sẽ gán vào status => watchStatus = approved => checked
   const watchStatus = watch("status");
-  const watchCategory = watch("category");
   const watchFeature = watch("feature");
 
   const addPostHandle = async (values) => {
-    values.slug = slugify(values.slug || values.title);
+    if (!image) {
+      toast.error("Please upload an image before submitting");
+      return;
+    }
+    values.slug = slugify(values.slug || values.title, { lower: true });
     const cloneValues = { ...values };
     cloneValues.status = Number(values.status); // convert thanh number
     console.log(cloneValues);
+    const colRef = collection(db, "posts");
+    await addDoc(colRef, { image, userId: userInfo.uid, ...cloneValues });
+    toast.success("Add new post successfully");
+    reset({
+      status: 2,
+      title: "",
+      slug: "",
+      feature: false,
+      categoryId: "",
+    });
+    setSelectCategory({});
   };
 
   return (
@@ -128,18 +159,25 @@ const PostAddNew = () => {
           <Field>
             <Label>Category</Label>
             <Dropdown>
-              <Dropdown.Select></Dropdown.Select>
+              <Dropdown.Select
+                placeholder={`${selectCategory.name || "Select category"}`}
+              ></Dropdown.Select>
               <Dropdown.List>
                 {categories.map((item) => (
                   <Dropdown.Option
                     key={item.id}
-                    onClick={() => setValue("categoryId", item.id)}
+                    onClick={() => handleChooseOption(item)}
                   >
                     {item.name}
                   </Dropdown.Option>
                 ))}
               </Dropdown.List>
             </Dropdown>
+            {selectCategory?.name && (
+              <span className="inline-block p-3 text-sm font-medium bg-gray-200 rounded-lg text-primary bg-primary bg-opacity-20">
+                {selectCategory?.name}
+              </span>
+            )}
           </Field>
           <Field>
             <Label>Feature Post</Label>

@@ -85,7 +85,6 @@ function getLastName(name) {
 const HeaderMenu = () => {
   const { userInfo } = useAuth();
   // console.log("🚀 ~ HeaderMenu ~ userInfo:", userInfo);
-
   return (
     <HeaderMenuStyles>
       <div className="container">

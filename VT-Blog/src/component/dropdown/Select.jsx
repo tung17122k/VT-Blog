@@ -1,14 +1,14 @@
 import React from "react";
 import { useDropdown } from "./DropdownContext";
 
-const Select = ({ placehoder = "Select option... " }) => {
+const Select = ({ placeholder = "" }) => {
   const { toggle, show } = useDropdown();
   return (
     <div
       className="flex items-center justify-between p-5 bg-[#E7ECF3] rounded cursor-pointer font-medium"
       onClick={toggle}
     >
-      <span>{placehoder}</span>
+      <span>{placeholder}</span>
       <span>
         {show ? (
           <svg

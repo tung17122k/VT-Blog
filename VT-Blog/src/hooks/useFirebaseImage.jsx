@@ -1,5 +1,5 @@
 import React from "react";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import {
   getStorage,
   ref,
@@ -11,6 +11,11 @@ import {
 export default function useImage(setValue, getValues) {
   const [progress, setProgress] = useState(0);
   const [image, setImage] = useState("");
+  useEffect(() => {
+    if (image) {
+      console.log("Image updated:", image);
+    }
+  }, [image]);
   if (!setValue && !getValues) return;
 
   const handleUploadImage = (file) => {
@@ -20,6 +25,7 @@ export default function useImage(setValue, getValues) {
     };
     const storageRef = ref(storage, "images/" + file.name);
     const uploadTask = uploadBytesResumable(storageRef, file, metadata);
+    console.log("🚀 ~ handleUploadImage ~ file:", file);
     uploadTask.on(
       "state_changed",
       (snapshot) => {
@@ -49,6 +55,7 @@ export default function useImage(setValue, getValues) {
       }
     );
   };
+
   const handleSelectImage = (e) => {
     const file = e.target.files[0];
     if (!file) return;
@@ -68,5 +75,6 @@ export default function useImage(setValue, getValues) {
         console.log("Remove fail");
       });
   };
+
   return { progress, image, handleDeleteImage, handleSelectImage };
 }

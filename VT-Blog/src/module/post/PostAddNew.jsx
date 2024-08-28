@@ -36,10 +36,13 @@ const PostAddNew = () => {
       image: "",
     },
   });
+  // customhook Image
   const { progress, image, handleDeleteImage, handleSelectImage } = useImage(
     setValue,
     getValues
   );
+
+  // gan img-url cho defValue(useForm)
   useEffect(() => {
     if (image) {
       setValue("image", image); // Update image in form
@@ -89,6 +92,7 @@ const PostAddNew = () => {
       slug: "",
       feature: false,
       categoryId: "",
+      image: "",
     });
     setSelectCategory({});
   };

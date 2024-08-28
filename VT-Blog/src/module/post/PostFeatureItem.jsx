@@ -63,16 +63,26 @@ const PostFeatureItemStyles = styled.div`
 `;
 
 const PostFeatureItem = ({ data }) => {
-  const [category, setCategory] = useState("");
+  const [categories, setCategories] = useState([]);
+
   useEffect(() => {
     async function getData() {
-      const snap = await getDoc(doc(db, "categories", data.categoryId));
-      console.log("🚀 ~ getData ~ snap:", snap.data());
+      const colRef = collection(db, "categories");
+      const q = query(colRef, where("status", "in", [1, 2, 3]));
+      let result = [];
+      const querySnapshot = await getDocs(q);
+      querySnapshot.forEach((doc) => {
+        result.push({ id: doc.id, ...doc.data() });
+        setCategories(result);
+      });
     }
     getData();
-    // const colRef = collection(db, "categories");
-    // const queries = query(colRef, where(data.categoryId));
-  }, [data.categoryId]);
+  }, []);
+
+  const category = categories.find(
+    (category) => category.id === data.categoryId
+  );
+  // console.log(category);
 
   if (!data.id) return null;
   return (
@@ -81,7 +91,11 @@ const PostFeatureItem = ({ data }) => {
       <div className="post-overlay"></div>
       <div className="post-content">
         <div className="post-top">
-          <PostCategory className="post-category">Kiến thức</PostCategory>
+          {category && (
+            <PostCategory key={category.id} className="post-category">
+              {category.name}
+            </PostCategory>
+          )}
           <PostMeta color="white" author={data.author}></PostMeta>
         </div>
         <PostTitle className="post-title" size="medium">

@@ -11,9 +11,7 @@ const PostCategoryStyles = styled.div`
   font-weight: 600;
   background-color: #f3f3f3;
   white-space: nowrap;
-  a {
-    display: block;
-  }
+
   ${(props) =>
     props.type === "primary" &&
     css`

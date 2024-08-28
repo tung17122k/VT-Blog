@@ -14,7 +14,7 @@ const HomeFeature = () => {
     const colRef = collection(db, "posts");
     const queries = query(
       colRef,
-      where("status", "==", 1),
+      where("status", "in", [1, 2, 3]),
       where("feature", "==", true),
       limit(3)
     );
@@ -24,6 +24,7 @@ const HomeFeature = () => {
       const results = [];
       snapshot.forEach((doc) => {
         results.push({ id: doc.id, ...doc.data() });
+        // console.log(results);
       });
       setPosts(results);
     });

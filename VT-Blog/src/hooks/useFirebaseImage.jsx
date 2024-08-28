@@ -11,6 +11,7 @@ import {
 export default function useImage(setValue, getValues) {
   const [progress, setProgress] = useState(0);
   const [image, setImage] = useState("");
+  if (!setValue && !getValues) return;
 
   const handleUploadImage = (file) => {
     const storage = getStorage();

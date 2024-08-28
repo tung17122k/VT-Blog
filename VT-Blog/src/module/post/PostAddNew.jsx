@@ -1,6 +1,9 @@
 /* eslint-disable no-undef */
 import React from "react";
+import { useEffect, useState } from "react";
 import styled from "styled-components";
+import { db } from "../../firebase/firebaseConfig";
+import { collection, where, query, getDocs } from "firebase/firestore";
 import { Field } from "../../component/field";
 import { Label } from "../../component/label";
 import { Input } from "../../component/input";
@@ -9,12 +12,14 @@ import { Button } from "../../component/button";
 import { Radio } from "../../component/checkbox";
 import { Dropdown } from "../../component/dropdown";
 import { ImageUpload } from "../../component/image";
+import Toggle from "../../component/toggle/Toggle";
 import slugify from "slugify";
 import { postStatus } from "../../utils/constants";
 import useImage from "../../hooks/useFirebaseImage";
 
 const PostAddNewStyles = styled.div``;
 const PostAddNew = () => {
+  const [categories, setCategories] = useState([]);
   const { control, watch, setValue, handleSubmit, getValues } = useForm({
     mode: "onchange",
     defaultValues: {
@@ -22,15 +27,33 @@ const PostAddNew = () => {
       category: "",
       title: "",
       slug: "",
+      feature: false,
+      categoryId: "",
     },
   });
   const { progress, image, handleDeleteImage, handleSelectImage } = useImage(
     setValue,
     getValues
   );
+
+  useEffect(() => {
+    async function getData() {
+      const colRef = collection(db, "categories");
+      const q = query(colRef, where("status", "==", 1));
+      let result = [];
+      const querySnapshot = await getDocs(q);
+      querySnapshot.forEach((doc) => {
+        console.log(doc.id, " => ", doc.data());
+        result.push({ id: doc.id, ...doc.data() });
+        setCategories(result);
+      });
+    }
+    getData();
+  }, []);
   // nếu được chọn thì value sẽ gán vào status => watchStatus = approved => checked
   const watchStatus = watch("status");
   const watchCategory = watch("category");
+  const watchFeature = watch("feature");
 
   const addPostHandle = async (values) => {
     values.slug = slugify(values.slug || values.title);
@@ -99,22 +122,34 @@ const PostAddNew = () => {
               placeholder="Enter your author"
               name="author"
             ></Input>
-            {/* <Input control={control} placeholder="Find the author"></Input> */}
           </Field>
         </div>
         <div className="grid grid-cols-2 mb-10 gap-x-10">
           <Field>
             <Label>Category</Label>
             <Dropdown>
-              <Dropdown.Search></Dropdown.Search>
-              <Dropdown.Option>Knowledge</Dropdown.Option>
-              <Dropdown.Option>Blockchain</Dropdown.Option>
-              <Dropdown.Option>Setup</Dropdown.Option>
-              <Dropdown.Option>Nature</Dropdown.Option>
-              <Dropdown.Option>Developer</Dropdown.Option>
+              <Dropdown.Select></Dropdown.Select>
+              <Dropdown.List>
+                {categories.map((item) => (
+                  <Dropdown.Option
+                    key={item.id}
+                    onClick={() => setValue("categoryId", item.id)}
+                  >
+                    {item.name}
+                  </Dropdown.Option>
+                ))}
+              </Dropdown.List>
             </Dropdown>
           </Field>
-          <Field></Field>
+          <Field>
+            <Label>Feature Post</Label>
+            <Toggle
+              on={watchFeature === true}
+              onClick={() => {
+                setValue("feature", !watchFeature);
+              }}
+            ></Toggle>
+          </Field>
         </div>
         <div className="mb-5">
           <Field>

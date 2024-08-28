@@ -1,5 +1,5 @@
 import React from "react";
-
+import PropTypes from "prop-types";
 const Toggle = (props) => {
   const { on, onClick, ...rest } = props;
   return (
@@ -25,6 +25,11 @@ const Toggle = (props) => {
       </div>
     </label>
   );
+};
+
+Toggle.propTypes = {
+  on: PropTypes.bool,
+  onClick: PropTypes.func,
 };
 
 export default Toggle;

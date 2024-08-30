@@ -11,7 +11,7 @@ import "react-toastify/dist/ReactToastify.css";
 import { createUserWithEmailAndPassword, updateProfile } from "firebase/auth";
 import { auth, db } from "../firebase/firebaseConfig";
 import { NavLink, useNavigate } from "react-router-dom";
-import { addDoc, collection } from "firebase/firestore";
+import { collection, setDoc, doc } from "firebase/firestore";
 import AuthenticationPage from "./AuthenticationPage";
 import InputPasswordToggle from "../component/input/InputPasswordToggle";
 
@@ -81,11 +81,18 @@ const SignUpPage = () => {
     );
     await updateProfile(auth.currentUser, { displayName: values.fullname });
     const colRef = collection(db, "users");
-    await addDoc(colRef, {
+
+    await setDoc(doc(db, "users", auth.currentUser.uid), {
       fullname: values.fullname,
       email: values.email,
       password: values.password,
     });
+
+    // await addDoc(colRef, {
+    //   fullname: values.fullname,
+    //   email: values.email,
+    //   password: values.password,
+    // });
     toast.success("Create user successfully", { pauseOnHover: false });
     navigate("/");
     // return new Promise((resolve) => {

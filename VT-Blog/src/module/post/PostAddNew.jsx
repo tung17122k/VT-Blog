@@ -37,10 +37,13 @@ const PostAddNew = () => {
     },
   });
   // customhook Image
-  const { progress, image, handleDeleteImage, handleSelectImage } = useImage(
-    setValue,
-    getValues
-  );
+  const {
+    progress,
+    image,
+    handleDeleteImage,
+    handleSelectImage,
+    handleDeleteImageUI,
+  } = useImage(setValue, getValues);
 
   // gan img-url cho defValue(useForm)
   useEffect(() => {
@@ -79,6 +82,7 @@ const PostAddNew = () => {
       toast.error("Please upload an image before submitting");
       return;
     }
+
     values.slug = slugify(values.slug || values.title, { lower: true });
     const cloneValues = { ...values };
     cloneValues.status = Number(values.status); // convert thanh number
@@ -86,6 +90,7 @@ const PostAddNew = () => {
     const colRef = collection(db, "posts");
     await addDoc(colRef, { image, userId: userInfo.uid, ...cloneValues });
     toast.success("Add new post successfully");
+
     reset({
       status: 2,
       title: "",
@@ -95,6 +100,8 @@ const PostAddNew = () => {
       image: "",
     });
     setSelectCategory({});
+    // handleDeleteImage();
+    handleDeleteImageUI();
   };
 
   return (

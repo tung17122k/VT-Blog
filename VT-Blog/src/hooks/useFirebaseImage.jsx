@@ -62,6 +62,10 @@ export default function useImage(setValue, getValues) {
     setValue("image_name", file.name);
     handleUploadImage(file);
   };
+  const handleDeleteImageUI = () => {
+    setImage("");
+    setProgress(0);
+  };
   const handleDeleteImage = () => {
     const storage = getStorage();
     const imageRef = ref(storage, "images/" + getValues("image_name"));
@@ -70,11 +74,18 @@ export default function useImage(setValue, getValues) {
         console.log("Remove success!");
         setImage("");
         setProgress(0);
+        setValue("image_name", "");
       })
       .catch((error) => {
         console.log("Remove fail");
       });
   };
 
-  return { progress, image, handleDeleteImage, handleSelectImage };
+  return {
+    progress,
+    image,
+    handleDeleteImage,
+    handleSelectImage,
+    handleDeleteImageUI,
+  };
 }

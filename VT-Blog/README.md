@@ -62,3 +62,5 @@ Currently, two official plugins are available:
 - Upload file img to storage => https://firebase.google.com/docs/storage/web/upload-files?hl=en&authuser=0
 
 - delete file img in storage => https://firebase.google.com/docs/storage/web/delete-files?hl=en&authuser=0
+
+Lưu ý về authen and db: signup => User UID => User UID = Id (document) của Collection users => UID = Id = userId (userId là field của collection post)

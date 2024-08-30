@@ -4,14 +4,7 @@ import PostCategory from "./PostCategory";
 import PostTitle from "./PostTitle";
 import PostMeta from "./PostMeta";
 import PostImage from "./PostImage";
-import {
-  collection,
-  query,
-  where,
-  getDocs,
-  getDoc,
-  doc,
-} from "firebase/firestore";
+import { getDoc, doc } from "firebase/firestore";
 import { db } from "../../firebase/firebaseConfig";
 
 const PostFeatureItemStyles = styled.div`
@@ -63,25 +56,59 @@ const PostFeatureItemStyles = styled.div`
 `;
 
 const PostFeatureItem = ({ data }) => {
-  const [categories, setCategories] = useState([]);
+  // const [categories, setCategories] = useState([]);
+  const [userName, setUserName] = useState("");
+  const [categoryName, setCategoryName] = useState("");
+  // console.log(data);
+  // get data categories
+  // useEffect(() => {
+  //   async function getData() {
+  //     const colRef = collection(db, "categories");
+  //     const q = query(colRef, where("status", "in", [1, 2, 3]));
+  //     let result = [];
+  //     const querySnapshot = await getDocs(q);
+  //     querySnapshot.forEach((doc) => {
+  //       result.push({ id: doc.id, ...doc.data() });
+  //       setCategories(result);
+  //     });
+  //   }
+  //   getData();
+  // }, []);
 
+  // lấy ra userName
   useEffect(() => {
-    async function getData() {
-      const colRef = collection(db, "categories");
-      const q = query(colRef, where("status", "in", [1, 2, 3]));
-      let result = [];
-      const querySnapshot = await getDocs(q);
-      querySnapshot.forEach((doc) => {
-        result.push({ id: doc.id, ...doc.data() });
-        setCategories(result);
-      });
+    async function fetchUser() {
+      if (data.userId) {
+        const docRef = doc(db, "users", data.userId); // lay ra document co data.userId  = id Document
+        const docSnap = await getDoc(docRef);
+        // console.log(docSnap.data());
+        if (docSnap.data()) {
+          setUserName(docSnap.data().fullname);
+        }
+      }
     }
-    getData();
-  }, []);
+    fetchUser();
+  }, [data.userId]);
 
-  const category = categories.find(
-    (category) => category.id === data.categoryId
-  );
+  // lấy ra categoryName
+  useEffect(() => {
+    async function fetchCategory() {
+      if (data.categoryId) {
+        const docRef = doc(db, "categories", data.categoryId); // lay ra document co data.userId  = id Document
+        const docSnap = await getDoc(docRef);
+        console.log(docSnap.data());
+        if (docSnap.data()) {
+          setCategoryName(docSnap.data().name);
+        }
+      }
+    }
+    fetchCategory();
+  }, [data.categoryId]);
+
+  // lấy ra category có id = categoryId
+  // const category = categories.find(
+  //   (category) => category.id === data.categoryId
+  // );
   // console.log(category);
 
   if (!data.id) return null;
@@ -91,12 +118,8 @@ const PostFeatureItem = ({ data }) => {
       <div className="post-overlay"></div>
       <div className="post-content">
         <div className="post-top">
-          {category && (
-            <PostCategory key={category.id} className="post-category">
-              {category.name}
-            </PostCategory>
-          )}
-          <PostMeta color="white" author={data.author}></PostMeta>
+          <PostCategory className="post-category">{categoryName}</PostCategory>
+          <PostMeta color="white" author={userName}></PostMeta>
         </div>
         <PostTitle className="post-title" size="medium">
           {data.title}

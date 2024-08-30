@@ -14,6 +14,7 @@ import { NavLink, useNavigate } from "react-router-dom";
 import { collection, setDoc, doc } from "firebase/firestore";
 import AuthenticationPage from "./AuthenticationPage";
 import InputPasswordToggle from "../component/input/InputPasswordToggle";
+import slugify from "slugify";
 
 /* .field {
     display: flex;
@@ -86,6 +87,7 @@ const SignUpPage = () => {
       fullname: values.fullname,
       email: values.email,
       password: values.password,
+      username: slugify(values.fullname, { lower: true }),
     });
 
     // await addDoc(colRef, {

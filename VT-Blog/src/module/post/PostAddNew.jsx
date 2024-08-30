@@ -1,29 +1,37 @@
 /* eslint-disable no-undef */
-import React from "react";
-import { useEffect, useState } from "react";
-import styled from "styled-components";
-import { db } from "../../firebase/firebaseConfig";
-import { collection, where, query, getDocs, addDoc } from "firebase/firestore";
-import { Field } from "../../component/field";
-import { Label } from "../../component/label";
-import { Input } from "../../component/input";
-import { useForm } from "react-hook-form";
-import { Button } from "../../component/button";
-import { Radio } from "../../component/checkbox";
-import { Dropdown } from "../../component/dropdown";
-import { ImageUpload } from "../../component/image";
-import Toggle from "../../component/toggle/Toggle";
-import slugify from "slugify";
-import { postStatus } from "../../utils/constants";
 import useImage from "../../hooks/useFirebaseImage";
+import Toggle from "../../component/toggle/Toggle";
+import styled from "styled-components";
+import slugify from "slugify";
+import React from "react";
+import { useForm } from "react-hook-form";
+import { useEffect, useState } from "react";
 import { useAuth } from "../../context/authContext";
 import { toast } from "react-toastify";
+import { Radio } from "../../component/checkbox";
+import { postStatus } from "../../utils/constants";
+import { Label } from "../../component/label";
+import { Input } from "../../component/input";
+import { ImageUpload } from "../../component/image";
+import { Field } from "../../component/field";
+import { Dropdown } from "../../component/dropdown";
+import { db } from "../../firebase/firebaseConfig";
+import { Button } from "../../component/button";
+import {
+  collection,
+  where,
+  query,
+  getDocs,
+  addDoc,
+  serverTimestamp,
+} from "firebase/firestore";
 
 const PostAddNewStyles = styled.div``;
 const PostAddNew = () => {
   const { userInfo } = useAuth();
   const [categories, setCategories] = useState([]);
   const [selectCategory, setSelectCategory] = useState("");
+  const [loading, setLoading] = useState(false);
 
   const { control, watch, setValue, handleSubmit, getValues, reset } = useForm({
     mode: "onchange",
@@ -82,27 +90,42 @@ const PostAddNew = () => {
       toast.error("Please upload an image before submitting");
       return;
     }
+    setLoading(true);
+    try {
+      values.slug = slugify(values.slug || values.title, { lower: true });
+      const cloneValues = { ...values };
+      cloneValues.status = Number(values.status); // convert thanh number
+      console.log(cloneValues);
+      const colRef = collection(db, "posts");
+      await addDoc(colRef, {
+        ...cloneValues,
+        image,
+        userId: userInfo.uid,
+        createAt: serverTimestamp(),
+      });
+      toast.success("Add new post successfully");
 
-    values.slug = slugify(values.slug || values.title, { lower: true });
-    const cloneValues = { ...values };
-    cloneValues.status = Number(values.status); // convert thanh number
-    console.log(cloneValues);
-    const colRef = collection(db, "posts");
-    await addDoc(colRef, { image, userId: userInfo.uid, ...cloneValues });
-    toast.success("Add new post successfully");
-
-    reset({
-      status: 2,
-      title: "",
-      slug: "",
-      feature: false,
-      categoryId: "",
-      image: "",
-    });
-    setSelectCategory({});
-    // handleDeleteImage();
-    handleDeleteImageUI();
+      reset({
+        status: 2,
+        title: "",
+        slug: "",
+        feature: false,
+        categoryId: "",
+        image: "",
+      });
+      setSelectCategory({});
+      // handleDeleteImage();
+      handleDeleteImageUI();
+    } catch (err) {
+      setLoading(false);
+    } finally {
+      setLoading();
+    }
   };
+
+  useEffect(() => {
+    document.title = "VT Blog - Add new post";
+  }, []);
 
   return (
     <PostAddNewStyles>
@@ -211,7 +234,12 @@ const PostAddNew = () => {
             ></ImageUpload>
           </Field>
         </div>
-        <Button type="submit" className="mx-auto">
+        <Button
+          type="submit"
+          className="mx-auto w-[250px]"
+          isLoading={loading}
+          disabled={loading}
+        >
           Add new post
         </Button>
       </form>

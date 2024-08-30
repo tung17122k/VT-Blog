@@ -1,9 +1,10 @@
-import React, { useEffect, useState } from "react";
 import styled from "styled-components";
-import PostCategory from "./PostCategory";
+import slugify from "slugify";
+import React, { useEffect, useState } from "react";
 import PostTitle from "./PostTitle";
 import PostMeta from "./PostMeta";
 import PostImage from "./PostImage";
+import PostCategory from "./PostCategory";
 import { getDoc, doc } from "firebase/firestore";
 import { db } from "../../firebase/firebaseConfig";
 
@@ -57,6 +58,7 @@ const PostFeatureItemStyles = styled.div`
 
 const PostFeatureItem = ({ data }) => {
   // const [categories, setCategories] = useState([]);
+
   const [userName, setUserName] = useState("");
   const [categoryName, setCategoryName] = useState("");
   // console.log(data);
@@ -96,9 +98,9 @@ const PostFeatureItem = ({ data }) => {
       if (data.categoryId) {
         const docRef = doc(db, "categories", data.categoryId); // lay ra document co data.userId  = id Document
         const docSnap = await getDoc(docRef);
-        console.log(docSnap.data());
+        // console.log(docSnap.data());
         if (docSnap.data()) {
-          setCategoryName(docSnap.data().name);
+          setCategoryName(docSnap.data());
         }
       }
     }
@@ -110,6 +112,8 @@ const PostFeatureItem = ({ data }) => {
   //   (category) => category.id === data.categoryId
   // );
   // console.log(category);
+  const date = new Date(data?.createAt?.seconds * 1000);
+  const formatDate = new Date(date).toLocaleDateString("vi-VI");
 
   if (!data.id) return null;
   return (
@@ -118,10 +122,17 @@ const PostFeatureItem = ({ data }) => {
       <div className="post-overlay"></div>
       <div className="post-content">
         <div className="post-top">
-          <PostCategory className="post-category">{categoryName}</PostCategory>
-          <PostMeta color="white" author={userName}></PostMeta>
+          <PostCategory className="post-category" to={categoryName.slug}>
+            {categoryName.name}
+          </PostCategory>
+          <PostMeta
+            color="white"
+            author={userName}
+            to={slugify(userName, { lower: true })}
+            date={formatDate}
+          ></PostMeta>
         </div>
-        <PostTitle className="post-title" size="medium">
+        <PostTitle className="post-title" size="medium" to={data.slug}>
           {data.title}
         </PostTitle>
       </div>

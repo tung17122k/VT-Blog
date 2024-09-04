@@ -9,6 +9,7 @@ import { db } from "../../firebase/firebaseConfig";
 import { categoryStatus } from "../../utils/constants";
 import { doc } from "firebase/firestore";
 import Swal from "sweetalert2";
+import { useNavigate } from "react-router-dom";
 
 const CategoryManagerStyles = styled.div`
   table th,
@@ -29,6 +30,7 @@ const CategoryManagerStyles = styled.div`
 `;
 const CategoryManager = () => {
   const [categoryList, setCategoryList] = useState([]);
+  const navigate = useNavigate();
   useEffect(() => {
     const colRef = collection(db, "categories");
     onSnapshot(colRef, (snapshot) => {
@@ -97,10 +99,10 @@ const CategoryManager = () => {
                   <em>{category.slug}</em>
                 </td>
                 <td>
-                  {category.status === categoryStatus.APPROVED && (
+                  {Number(category.status) === categoryStatus.APPROVED && (
                     <LabelStatus type="success">APPROVED</LabelStatus>
                   )}
-                  {category.status === categoryStatus.UNAPPROVED && (
+                  {Number(category.status) === categoryStatus.UNAPPROVED && (
                     <LabelStatus type="danger">UNAPPROVED</LabelStatus>
                   )}
                 </td>
@@ -110,7 +112,11 @@ const CategoryManager = () => {
                     <ActionDelete
                       onClick={() => handleDeleteCategory(category.id)}
                     ></ActionDelete>
-                    <ActionEdit></ActionEdit>
+                    <ActionEdit
+                      onClick={() =>
+                        navigate(`/manage/update-category?id=${category.id}`)
+                      }
+                    ></ActionEdit>
                   </div>
                 </td>
               </tr>

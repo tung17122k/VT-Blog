@@ -12,6 +12,7 @@ import PostAddNew from "./module/post/PostAddNew";
 import DashboardLayout from "./module/dashboard/DashboardLayout";
 import CategoryAddNew from "./module/category/CategoryAddNew";
 import CategoryManager from "./module/category/CategoryManager";
+import CategoryUpdate from "./module/category/CategoryUpdate";
 
 function App() {
   return (
@@ -47,6 +48,10 @@ function App() {
             <Route
               path="/manage/category"
               element={<CategoryManager></CategoryManager>}
+            ></Route>
+            <Route
+              path="/manage/update-category"
+              element={<CategoryUpdate></CategoryUpdate>}
             ></Route>
           </Route>
         </Routes>

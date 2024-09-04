@@ -64,7 +64,7 @@ const PostAddNew = () => {
   useEffect(() => {
     async function getData() {
       const colRef = collection(db, "categories");
-      const q = query(colRef, where("status", "in", [1, 2, 3]));
+      const q = query(colRef, where("status", "in", [1, 2]));
       let result = [];
       const querySnapshot = await getDocs(q);
       querySnapshot.forEach((doc) => {

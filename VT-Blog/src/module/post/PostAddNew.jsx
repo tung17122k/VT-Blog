@@ -181,16 +181,6 @@ const PostAddNew = () => {
             </div>
           </Field>
           <Field>
-            <Label>Author</Label>
-            <Input
-              control={control}
-              placeholder="Enter your author"
-              name="author"
-            ></Input>
-          </Field>
-        </div>
-        <div className="grid grid-cols-2 mb-10 gap-x-10">
-          <Field>
             <Label>Category</Label>
             <Dropdown>
               <Dropdown.Select
@@ -213,17 +203,8 @@ const PostAddNew = () => {
               </span>
             )}
           </Field>
-          <Field>
-            <Label>Feature Post</Label>
-            <Toggle
-              on={watchFeature === true}
-              onClick={() => {
-                setValue("feature", !watchFeature);
-              }}
-            ></Toggle>
-          </Field>
         </div>
-        <div className="mb-5">
+        <div className="grid grid-cols-2 mb-10 gap-x-10">
           <Field>
             <Label>Image</Label>
             <ImageUpload
@@ -232,6 +213,15 @@ const PostAddNew = () => {
               image={image}
               handleDeleteImage={handleDeleteImage}
             ></ImageUpload>
+          </Field>
+          <Field>
+            <Label>Feature Post</Label>
+            <Toggle
+              on={watchFeature === true}
+              onClick={() => {
+                setValue("feature", !watchFeature);
+              }}
+            ></Toggle>
           </Field>
         </div>
         <Button

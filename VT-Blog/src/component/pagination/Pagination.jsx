@@ -11,6 +11,7 @@ const PaginationStyles = styled.div`
     gap: 0 10px;
   }
   .pagination-prev,
+  .pagination-next,
   .pagination-text,
   .pagination-item {
     cursor: pointer;
@@ -24,13 +25,25 @@ const PaginationStyles = styled.div`
       color: white;
       background-color: ${(props) => props.theme.secondary};
     }
+    .pagination-item--active {
+      color: white;
+      background-color: ${(props) => props.theme.primary};
+    }
   }
 `;
 
-const Pagination = () => {
+// can phai truyen vao page hien tai, tong so page, su kien change page
+const Pagination = ({
+  className,
+  currentPage = 1,
+  totalPages,
+  onNextPage,
+  onPrevPage,
+}) => {
+  const pages = Array.from({ length: totalPages }, (_, index) => index + 1);
   return (
-    <PaginationStyles>
-      <span className="pagination-prev">
+    <PaginationStyles className={className}>
+      <span className="pagination-prev" onClick={onPrevPage}>
         <svg
           xmlns="http://www.w3.org/2000/svg"
           className="w-6 h-6"
@@ -47,14 +60,21 @@ const Pagination = () => {
         </svg>
       </span>
       <ul className="pagination-list">
-        <li className="pagination-item">1</li>
-        <li className="pagination-item is-current">2</li>
-        <li className="pagination-item">...</li>
-        <li className="pagination-item">3</li>
-        <li className="pagination-item">4</li>
-        <li className="pagination-item">5</li>
+        {pages.map((page) => (
+          <li
+            className={`pagination-item ${
+              page === currentPage ? "pagination-item--active" : ""
+            }`}
+            key={page}
+          >
+            {page}
+          </li>
+        ))}
       </ul>
-      <span className="pagination-next">
+      <span
+        className="pagination-next"
+        onClick={() => onNextPage(currentPage + 1)}
+      >
         <svg
           xmlns="http://www.w3.org/2000/svg"
           className="w-6 h-6"

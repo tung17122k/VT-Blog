@@ -11,6 +11,7 @@ import { collection, serverTimestamp } from "firebase/firestore";
 import { db } from "../../firebase/firebaseConfig";
 import { toast } from "react-toastify";
 import { addDoc } from "firebase/firestore";
+import { useNavigate } from "react-router-dom";
 
 const CategoryAddNew = () => {
   const {
@@ -28,6 +29,7 @@ const CategoryAddNew = () => {
       createAt: new Date(),
     },
   });
+  const navigate = useNavigate();
   const handleAddNewCategory = async (values) => {
     if (!isValid) return;
     const newValues = { ...values };
@@ -40,6 +42,7 @@ const CategoryAddNew = () => {
         createAt: serverTimestamp(),
       });
       toast.success("Create successfully!");
+      navigate("/manage/category");
     } catch (error) {
       toast.error(error.message);
     } finally {

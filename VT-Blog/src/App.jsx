@@ -2,7 +2,6 @@ import { Routes, Route } from "react-router-dom";
 import { AuthProvider } from "./context/authContext";
 import SignUpPage from "./pages/SignUpPage";
 import SignInPage from "./pages/SignInPage";
-import "./App.css";
 import HomePage from "./pages/HomePage";
 import NotFoundPage from "./pages/NotFoundPage";
 import PostDetailPage from "./pages/PostDetailPage";
@@ -13,7 +12,6 @@ import DashboardLayout from "./module/dashboard/DashboardLayout";
 import CategoryAddNew from "./module/category/CategoryAddNew";
 import CategoryManager from "./module/category/CategoryManager";
 import CategoryUpdate from "./module/category/CategoryUpdate";
-
 function App() {
   return (
     <div>

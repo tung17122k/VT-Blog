@@ -12,6 +12,9 @@ import DashboardLayout from "./module/dashboard/DashboardLayout";
 import CategoryAddNew from "./module/category/CategoryAddNew";
 import CategoryManager from "./module/category/CategoryManager";
 import CategoryUpdate from "./module/category/CategoryUpdate";
+import UserManage from "./module/user/UserManage";
+import UserUpdate from "./module/user/UserUpdate";
+import UserAddNew from "./module/user/UserAddNew";
 function App() {
   return (
     <div>
@@ -50,6 +53,18 @@ function App() {
             <Route
               path="/manage/update-category"
               element={<CategoryUpdate></CategoryUpdate>}
+            ></Route>
+            <Route
+              path="/manage/user"
+              element={<UserManage></UserManage>}
+            ></Route>
+            <Route
+              path="/manage/update-user"
+              element={<UserUpdate></UserUpdate>}
+            ></Route>
+            <Route
+              path="/manage/add-user"
+              element={<UserAddNew></UserAddNew>}
             ></Route>
           </Route>
         </Routes>

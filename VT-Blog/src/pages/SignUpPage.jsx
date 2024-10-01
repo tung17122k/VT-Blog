@@ -11,42 +11,12 @@ import "react-toastify/dist/ReactToastify.css";
 import { createUserWithEmailAndPassword, updateProfile } from "firebase/auth";
 import { auth, db } from "../firebase/firebaseConfig";
 import { NavLink, useNavigate } from "react-router-dom";
-import { collection, setDoc, doc } from "firebase/firestore";
+import { collection, setDoc, doc, serverTimestamp } from "firebase/firestore";
 import AuthenticationPage from "./AuthenticationPage";
 import InputPasswordToggle from "../component/input/InputPasswordToggle";
 import slugify from "slugify";
+import { userRole, userStatus } from "../utils/constants";
 
-/* .field {
-    display: flex;
-    flex-direction: column;
-    align-items: flex-start;
-    row-gap: 20px;
-  } */
-/* .label {
-    color: ${(props) => props.theme.grayDark};
-    font-weight: 600;
-    cursor: pointer;
-  } */
-/* .input {
-    width: 100%;
-    padding: 20px;
-    background-color: ${(props) => props.theme.grayLight};
-    border-radius: 8px;
-    font-weight: 500;
-    transition: all 0.2s linear;
-    border: 1px solid transparent;
-    outline: none;
-  }
-  .input:focus {
-    background-color: white;
-    border-color: ${(props) => props.theme.primary};
-  }
-  .input::-webkit-input-placeholder {
-    color: #84878b;
-  }
-  .input::-moz-input-placeholder {
-    color: #84878b;
-  } */
 const schema = yup
   .object({
     fullname: yup.string().required("Please enter your fullname"),
@@ -80,7 +50,11 @@ const SignUpPage = () => {
       values.email,
       values.password
     );
-    await updateProfile(auth.currentUser, { displayName: values.fullname });
+    await updateProfile(auth.currentUser, {
+      displayName: values.fullname,
+      photoURL:
+        "https://images.unsplash.com/photo-1622861431942-b45f2b5b6564?q=80&w=1972&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
+    });
     const colRef = collection(db, "users");
 
     await setDoc(doc(db, "users", auth.currentUser.uid), {
@@ -88,6 +62,11 @@ const SignUpPage = () => {
       email: values.email,
       password: values.password,
       username: slugify(values.fullname, { lower: true }),
+      avatar:
+        "https://images.unsplash.com/photo-1622861431942-b45f2b5b6564?q=80&w=1972&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
+      status: userStatus.ACTIVE,
+      role: userRole.USER,
+      createAt: serverTimestamp(),
     });
 
     // await addDoc(colRef, {

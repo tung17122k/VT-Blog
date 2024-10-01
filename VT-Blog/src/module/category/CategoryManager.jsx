@@ -17,6 +17,8 @@ import {
   orderBy,
   query,
   startAfter,
+  startAt,
+  where,
 } from "firebase/firestore";
 import { db } from "../../firebase/firebaseConfig";
 import { categoryStatus } from "../../utils/constants";
@@ -31,8 +33,7 @@ const CategoryManagerStyles = styled.div`
     padding: 8px;
     text-align: left;
   }
-  table {
-  }
+
   .button-category {
     padding: 0px 20px;
   }
@@ -44,110 +45,62 @@ const CategoryManagerStyles = styled.div`
 const CategoryManager = () => {
   const [categoryList, setCategoryList] = useState([]);
   const navigate = useNavigate();
-  const [lastDoc, setLastDoc] = useState();
-  const [firstDoc, setFirstDoc] = useState();
+  const [lastDoc, setLastDoc] = useState(null);
+  const [firstDoc, setFirstDoc] = useState(null);
   const [filter, setFilter] = useState("");
   const itemPerPage = 3;
   const [totalPages, setTotalPages] = useState(0);
-  useEffect(() => {
-    async function fetchData() {
-      const colRef = collection(db, "categories");
-      onSnapshot(colRef, (snapshot) => {
-        let results = [];
-        snapshot.forEach((doc) =>
-          results.push({
-            id: doc.id,
-            ...doc.data(),
-          })
-        );
-        setTotalPages(Math.ceil(results.length / itemPerPage));
-      });
-      const initialQuery = query(colRef, limit(3));
 
-      // lay lastDoc
-      const first = query(colRef, limit(3));
-      const documentSnapshots = await getDocs(first);
-      const lastVisible =
-        documentSnapshots.docs[documentSnapshots.docs.length - 1];
-      setLastDoc(lastVisible);
-      onSnapshot(initialQuery, (snapshot) => {
-        let results = [];
-        snapshot.forEach((doc) => {
-          results.push({ id: doc.id, ...doc.data() });
-        });
-        setCategoryList(results);
-      });
-      // query lai de filter toan bo trong db
-      const initialFilter = query(colRef);
-      onSnapshot(initialFilter, (snapshot) => {
-        let results = [];
-        snapshot.forEach((doc) => {
-          results.push({ id: doc.id, ...doc.data() });
-        });
-        if (filter) {
-          results = results.filter((item) =>
-            item.name.toLowerCase().includes(filter.toLowerCase())
-          );
-          setCategoryList(results);
-        }
-      });
+  const fetchData = async (startAfterDoc = null, startAtDoc = null) => {
+    const colRef = collection(db, "categories");
+    let q;
+    if (filter) {
+      q = query(
+        colRef,
+        orderBy("name"),
+        limit(itemPerPage),
+        where("name", ">=", filter),
+        where("name", "<=", filter + "\uf8ff")
+      );
+    } else q = query(colRef, orderBy("name"), limit(3));
+    if (startAfterDoc) {
+      q = query(
+        colRef,
+        orderBy("name"),
+        startAfter(startAfterDoc),
+        limit(itemPerPage)
+      );
+    } else if (startAtDoc) {
+      q = query(
+        colRef,
+        orderBy("name"),
+        endBefore(startAtDoc),
+        limit(itemPerPage)
+      );
     }
+    const querySnapshot = await getDocs(q);
+    let itemList = querySnapshot.docs.map((doc) => ({
+      id: doc.id,
+      ...doc.data(),
+    }));
+    setCategoryList(itemList);
+    setLastDoc(querySnapshot.docs[querySnapshot.docs.length - 1]);
+    setFirstDoc(querySnapshot.docs[querySnapshot.docs.length - 1]);
+  };
+  useEffect(() => {
     fetchData();
   }, [filter]);
-
-  const handleNextPage = async () => {
-    const colRef = collection(db, "categories");
-    const nextQuery = filter
-      ? query(colRef, startAfter(lastDoc), limit(itemPerPage))
-      : query(colRef, startAfter(lastDoc), limit(itemPerPage));
-    const documentSnapshots = await getDocs(nextQuery);
-    const lastVisible =
-      documentSnapshots.docs[documentSnapshots.docs.length - 1];
-    const firstVisible =
-      documentSnapshots.docs[documentSnapshots.docs.length - 1];
-    if (!documentSnapshots.empty) {
-      let results = [];
-      documentSnapshots.forEach((doc) => {
-        results.push({ id: doc.id, ...doc.data() });
-      });
-      console.log(results);
-
-      setCategoryList(results);
-      setLastDoc(lastVisible);
-      setFirstDoc(firstVisible);
-    } else console.log("no more documents");
+  const handleNextPage = () => {
+    if (lastDoc) {
+      fetchData(lastDoc);
+      console.log(firstDoc.data());
+    }
   };
-
-  const handlePrevPage = async (currentPage) => {
-    if (currentPage <= 1) return;
-    const colRef = collection(db, "categories");
-    const prevQuery = filter
-      ? query(
-          colRef,
-          orderBy("name"),
-          endBefore(firstDoc),
-          limitToLast(itemPerPage)
-        )
-      : query(
-          colRef,
-          orderBy("name"),
-          endBefore(firstDoc),
-          limitToLast(itemPerPage)
-        );
-    const documentSnapshots = await getDocs(prevQuery);
-    const lastVisible =
-      documentSnapshots.docs[documentSnapshots.docs.length - 1];
-    const firstVisible = documentSnapshots.docs[0];
-    if (!documentSnapshots.empty) {
-      let results = [];
-      documentSnapshots.forEach((doc) => {
-        results.push({ id: doc.id, ...doc.data() });
-      });
-      console.log(results);
-      setCategoryList(results);
-      setLastDoc(lastVisible);
-      setFirstDoc(firstVisible);
-    } else console.log("no more documents");
+  const handlePrevPage = () => {
+    if (firstDoc) {
+      fetchData(null, firstDoc);
+      console.log(firstDoc.data());
+    }
   };
 
   const handleDeleteCategory = async (docId) => {
